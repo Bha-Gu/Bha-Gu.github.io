@@ -7,5 +7,7 @@ fn main() {
 
 #[component]
 fn App() -> impl IntoView {
-    view! {}
+    view! {
+    <p>"Bhaumikaditya Guleria"</p>
+        }
 }
