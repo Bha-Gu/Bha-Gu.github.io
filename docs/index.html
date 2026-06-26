@@ -4,16 +4,15 @@
 <head>
   <!-- Add a plain CSS file: see https://trunk-rs.github.io/trunk/guide/assets/#css -->
   <!-- If using Tailwind with Leptos CSR, see https://trunk-rs.github.io/trunk/guide/assets/#tailwind instead-->
-  <link rel="stylesheet" href="/styles-42fb9b7b92ddf8c6.css" integrity="sha384-w9MWeN0Y94QGfF5alnmJojNfiqO7gkcM60xNpNUePF3h/oVHqfubM6lqKSiMCod8"/>
+  <link rel="stylesheet" href="/styles-9213a4816f1e6318.css" integrity="sha384-z9TqsV8Yh9ciWUjTXLMvnt63U4Oj3ZWX0cBl26brBiB0t1X9X/QjI+hrhMbFAcXk"/>
 
   <!-- Include favicon in dist output: see https://trunk-rs.github.io/trunk/guide/assets/#icon -->
   <link rel="icon" href="/favicon-26db39358dcae500.ico" integrity="sha384-CmPeFEzbuSzNN8tZPdRefcesP1rYXLszbDFA/X2XLYnVwyZOKVB/Z0yxHxhqVVNJ"/>
-
   <!-- include support for `wasm-bindgen --weak-refs` - see: https://rustwasm.github.io/docs/wasm-bindgen/reference/weak-references.html -->
   
 <script type="module">
-import init, * as bindings from '/my-page-fe022c6aef8dda7f.js';
-const wasm = await init({ module_or_path: '/my-page-fe022c6aef8dda7f_bg.wasm' });
+import init, * as bindings from '/my-page-dcd9bcbd96f49d89.js';
+const wasm = await init({ module_or_path: '/my-page-dcd9bcbd96f49d89_bg.wasm' });
 
 
 window.wasmBindings = bindings;
@@ -22,7 +21,7 @@ window.wasmBindings = bindings;
 dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
 </script>
-<link rel="modulepreload" href="/my-page-fe022c6aef8dda7f.js" crossorigin="anonymous" integrity="sha384-+fQAVD1gmB7Gy4rFPF++rAWwb/JbU+m3rNkHUHdxxq10/fWCcTcGLQ5GDg3HLKKA"><link rel="preload" href="/my-page-fe022c6aef8dda7f_bg.wasm" crossorigin="anonymous" integrity="sha384-7u73DUItei1liHZiy/6yfVTigKfB2xg8OoHdfUU3Pmqz97P12nQq1C98FPC7sSIX" as="fetch" type="application/wasm"></head>
+<link rel="modulepreload" href="/my-page-dcd9bcbd96f49d89.js" crossorigin="anonymous" integrity="sha384-TnMgvn76FJQIBklxywm8eDEBZABRdEmUIsbUDa9LCaVB/V1mGVltqOL9ZbkvWa3i"><link rel="modulepreload" href="/snippets/my-page-613acc98552127e4/game-loader.js" crossorigin="anonymous" integrity="sha384-INS0IMOBApLH54DMiB5xnlHPP+K7ks1fJ/TtXHLHF1DdmrR3xdAD3DaTYC7P0gmn"><link rel="preload" href="/my-page-dcd9bcbd96f49d89_bg.wasm" crossorigin="anonymous" integrity="sha384-z934g3bdj5crt8cyHm9VUQ+kJ9Lo/bu0rtR2YScR6YEchrScB9FAqAHoAnuNA/OC" as="fetch" type="application/wasm"></head>
 
 <body></body>
 

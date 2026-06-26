@@ -1,56 +1,59 @@
+#![allow(non_snake_case)]
+
 use leptos::mount::mount_to_body;
 use leptos::prelude::*;
 use leptos_router::components::{A, Outlet, ParentRoute, Route, Router, Routes};
-use leptos_router::hooks::use_params_map;
 use leptos_router::path;
-
 use web_sys::window;
 
 #[component]
-pub fn ThemeToggle() -> impl IntoView {
+fn GamePage(
+    game_id: String,
+    #[prop(default = "800".to_string())] width: String,
+    #[prop(default = "600".to_string())] height: String,
+) -> impl IntoView {
+    let address = format!("https://bha-gu.github.io/{game_id}/");
+
+    view! { <iframe class="game-frame" src={address} width={width} height={height} /> }
+}
+
+#[component]
+fn ThemeToggle() -> impl IntoView {
     let (dark_mode, set_dark_mode) = signal(true);
 
     let toggle_theme = move |_| {
         let new_theme = !dark_mode.get();
         set_dark_mode.set(new_theme);
 
-        if let Some(document) = window().and_then(|w| w.document()) {
-            if let Some(html) = document.document_element() {
-                let theme = if new_theme { "dark" } else { "light" };
+        if let Some(document) = window().and_then(|w| w.document())
+            && let Some(html) = document.document_element()
+        {
+            let theme = if new_theme { "dark" } else { "light" };
 
-                let _ = html.set_attribute("data-theme", theme);
-            }
+            let _ = html.set_attribute("data-theme", theme);
         }
     };
 
     view! {
-    <button
-        class=move || {
-            if dark_mode.get() {
-                "navbar__theme-switch dark"
-            } else {
-                "navbar__theme-switch"
+        <button
+            class=move || {
+                if dark_mode.get() { "navbar__theme-switch dark" } else { "navbar__theme-switch" }
             }
-        }
-        on:click=toggle_theme
-        aria-label="Toggle theme"
-    >
-        <span class="navbar__theme-slider"></span>
+            on:click=toggle_theme
+            aria-label="Toggle theme"
+        >
+            <span class="navbar__theme-slider"></span>
 
-        <span class="navbar__theme-option">
-            "☀️"
-        </span>
+            <span class="navbar__theme-option">"☀️"</span>
 
-        <span class="navbar__theme-option">
-            "🌙"
-        </span>
-    </button>
+            <span class="navbar__theme-option">"🌙"</span>
+        </button>
     }
 }
 
 #[component]
 fn NavBar() -> impl IntoView {
-    let navbar_list = vec!["Home", "Contact"];
+    let navbar_list = vec!["Home", "Contact", "Games"];
 
     let navbar_items = navbar_list
         .into_iter()
@@ -117,7 +120,7 @@ fn SideBar(ids: Vec<String>) -> impl IntoView {
         .map(|id| {
             view! {
                 <li>
-                    <a href=format!("#{}", id.clone()) class="sidebar__link">
+                    <a href=format!("#{id}") class="sidebar__link">
                         {id.clone()}
                     </a>
                 </li>
@@ -144,23 +147,13 @@ fn main() {
 fn Name() -> impl IntoView {
     let ids = vec!["Base".into(), "About".into()];
     view! {
-            <SideBarPage ids=ids>
-                <h1 id="Base">"Bhaumikaditya Guleria"</h1>
-    <p>"
- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ipsum dui, scelerisque a cursus vel, blandit at magna. Mauris maximus eu arcu sed faucibus. Donec porta rutrum libero vitae accumsan. Suspendisse erat risus, faucibus id placerat in, porta at turpis. Cras elit dolor, facilisis vel viverra quis, tincidunt et dui. Fusce id neque non mauris mollis vehicula sit amet eget lacus. Cras sed fringilla nibh. Fusce placerat lacus tempor, pellentesque leo sit amet, dapibus ex. Pellentesque vel accumsan risus. Nulla vel arcu nec libero ultrices blandit. Nunc mollis, mi ac porta rutrum, elit velit luctus est, ut interdum lacus tortor a elit. Suspendisse maximus luctus venenatis.
+        <SideBarPage ids=ids>
+            <h1 id="Base">"Bhaumikaditya Guleria"</h1>
 
-Aliquam erat volutpat. Fusce sit amet suscipit nulla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum eget condimentum dui. Aliquam vulputate id leo quis blandit. Nulla consectetur massa sit amet tincidunt scelerisque. Quisque et nibh erat. Duis ornare gravida tempus. Pellentesque maximus nisi pulvinar, vulputate nunc non, interdum ligula. Morbi mattis vitae magna id bibendum. Donec eget porta est. Duis maximus neque ex, molestie pretium ex ullamcorper sed.
+            <h1 id="About">"Bhaumikaditya Guleria"</h1>
 
-Integer eu tellus tempor, dapibus lectus quis, malesuada velit. Curabitur a arcu quis nisl dictum tristique. Vivamus non elementum dolor. Phasellus malesuada, nibh nec blandit tincidunt, nulla urna convallis lorem, hendrerit mollis mi magna vel lacus. Aliquam et pellentesque nibh. Etiam ornare in nisi eu varius. Curabitur ut placerat risus, finibus ultricies sapien. Vivamus viverra libero metus, ut dictum justo imperdiet et. Aenean justo purus, elementum et mattis eget, accumsan ac nunc. Sed aliquam est vel ipsum venenatis commodo ut et sapien. Vivamus efficitur nibh sed mauris vehicula, posuere facilisis ex posuere. Vestibulum pellentesque purus eget lacinia iaculis. Quisque tincidunt mauris turpis, ac commodo sapien maximus id. Sed rutrum imperdiet nunc. Praesent lacinia, metus vel dignissim porttitor, libero eros bibendum quam, quis viverra odio purus eu est. Cras lobortis magna et tellus tempor euismod.
-
-Integer efficitur, tortor semper venenatis dignissim, ipsum ligula finibus nisi, eget elementum lectus nisl nec sapien. Sed volutpat rutrum posuere. Donec venenatis ultrices nibh vel blandit. Nam eu dictum mauris. Curabitur luctus facilisis efficitur. Duis dictum velit in lorem cursus convallis. Nullam commodo iaculis mollis. Nulla laoreet nunc non ligula pellentesque, eu ultricies ligula aliquet. Nunc dignissim diam nisl, ut pellentesque quam faucibus sed. Nam et metus id libero sodales laoreet eget et massa. Nullam dolor augue, convallis eu consectetur id, commodo non tellus. Integer in efficitur orci.
-
-Phasellus et leo ac nibh euismod bibendum. Ut at enim porta, gravida urna ut, condimentum nisi. Vestibulum ornare tellus eget enim consequat mattis. Proin quis felis elementum, fringilla neque eu, tempus enim. Aenean at pharetra eros. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut lobortis, magna id congue lacinia, tellus massa facilisis libero, id egestas enim leo sed mi. Maecenas accumsan, est in mattis porttitor, dolor lectus ultrices justo, nec convallis orci dolor non elit. Morbi in posuere lectus. Nam vitae eros et quam maximus mattis. Quisque vel urna quam. Praesent quis tellus at mauris dapibus commodo sed vel est. 
-        "</p>
-                <h1 id="About">"Bhaumikaditya Guleria"</h1>
-
-            </SideBarPage>
-        }
+        </SideBarPage>
+    }
 }
 
 #[component]
@@ -169,19 +162,24 @@ fn About() -> impl IntoView {
         <StaticPage>
             <h1>"About Me"</h1>
 
-    <p>"
- Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ipsum dui, scelerisque a cursus vel, blandit at magna. Mauris maximus eu arcu sed faucibus. Donec porta rutrum libero vitae accumsan. Suspendisse erat risus, faucibus id placerat in, porta at turpis. Cras elit dolor, facilisis vel viverra quis, tincidunt et dui. Fusce id neque non mauris mollis vehicula sit amet eget lacus. Cras sed fringilla nibh. Fusce placerat lacus tempor, pellentesque leo sit amet, dapibus ex. Pellentesque vel accumsan risus. Nulla vel arcu nec libero ultrices blandit. Nunc mollis, mi ac porta rutrum, elit velit luctus est, ut interdum lacus tortor a elit. Suspendisse maximus luctus venenatis.
 
-Aliquam erat volutpat. Fusce sit amet suscipit nulla. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum eget condimentum dui. Aliquam vulputate id leo quis blandit. Nulla consectetur massa sit amet tincidunt scelerisque. Quisque et nibh erat. Duis ornare gravida tempus. Pellentesque maximus nisi pulvinar, vulputate nunc non, interdum ligula. Morbi mattis vitae magna id bibendum. Donec eget porta est. Duis maximus neque ex, molestie pretium ex ullamcorper sed.
-
-Integer eu tellus tempor, dapibus lectus quis, malesuada velit. Curabitur a arcu quis nisl dictum tristique. Vivamus non elementum dolor. Phasellus malesuada, nibh nec blandit tincidunt, nulla urna convallis lorem, hendrerit mollis mi magna vel lacus. Aliquam et pellentesque nibh. Etiam ornare in nisi eu varius. Curabitur ut placerat risus, finibus ultricies sapien. Vivamus viverra libero metus, ut dictum justo imperdiet et. Aenean justo purus, elementum et mattis eget, accumsan ac nunc. Sed aliquam est vel ipsum venenatis commodo ut et sapien. Vivamus efficitur nibh sed mauris vehicula, posuere facilisis ex posuere. Vestibulum pellentesque purus eget lacinia iaculis. Quisque tincidunt mauris turpis, ac commodo sapien maximus id. Sed rutrum imperdiet nunc. Praesent lacinia, metus vel dignissim porttitor, libero eros bibendum quam, quis viverra odio purus eu est. Cras lobortis magna et tellus tempor euismod.
-
-Integer efficitur, tortor semper venenatis dignissim, ipsum ligula finibus nisi, eget elementum lectus nisl nec sapien. Sed volutpat rutrum posuere. Donec venenatis ultrices nibh vel blandit. Nam eu dictum mauris. Curabitur luctus facilisis efficitur. Duis dictum velit in lorem cursus convallis. Nullam commodo iaculis mollis. Nulla laoreet nunc non ligula pellentesque, eu ultricies ligula aliquet. Nunc dignissim diam nisl, ut pellentesque quam faucibus sed. Nam et metus id libero sodales laoreet eget et massa. Nullam dolor augue, convallis eu consectetur id, commodo non tellus. Integer in efficitur orci.
-
-Phasellus et leo ac nibh euismod bibendum. Ut at enim porta, gravida urna ut, condimentum nisi. Vestibulum ornare tellus eget enim consequat mattis. Proin quis felis elementum, fringilla neque eu, tempus enim. Aenean at pharetra eros. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut lobortis, magna id congue lacinia, tellus massa facilisis libero, id egestas enim leo sed mi. Maecenas accumsan, est in mattis porttitor, dolor lectus ultrices justo, nec convallis orci dolor non elit. Morbi in posuere lectus. Nam vitae eros et quam maximus mattis. Quisque vel urna quam. Praesent quis tellus at mauris dapibus commodo sed vel est. 
-        "</p>
 
         </StaticPage>
+    }
+}
+
+#[component]
+fn GameList() -> impl IntoView {
+    view! {
+        <div class="game-list">
+            <h2>"Games"</h2>
+
+            <div class="games-list">
+                <A href="Pong">"Pong"</A>
+                <A href="" exact=true>"Unload Game"</A>
+            </div>
+            <Outlet />
+        </div>
     }
 }
 
@@ -195,6 +193,22 @@ fn App() -> impl IntoView {
                     // / just has an un-nested "Home"
                     <Route path=path!("/") view=|| view! { <Name /> } />
                     <Route path=path!("/Contact") view=|| view! { <About /> } />
+                    <ParentRoute path=path!("/Games") view=GameList>
+                        <Route path=path!("") view=|| view! { <div>"Select a game"</div> } />
+                        <Route path=path!("Pong") view=|| view! { <GamePage game_id="pong_bevy".to_string() /> } />
+                    </ParentRoute>
+
+                // <Route
+                // path=path!("/Games")
+                // view=GameList
+                // />
+                //
+                // <Route
+                // path=path!("/Games/pong")
+                // view=|| view! {
+                // <GamePage game_id="pong" />
+                // }
+                // />
                 </Routes>
             </main>
         </Router>
