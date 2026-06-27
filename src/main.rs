@@ -308,22 +308,43 @@ fn PostPage() -> impl IntoView {
     };
 
     view! {
-        {move || {
-            markdown()
-                .map(|md| {
-                    let front = extract_front_matter(&md).unwrap();
-                    let html = markdown_to_html(&md).unwrap();
+            {move || {
+                markdown()
+                    .map(|md| {
+                        let front = extract_front_matter(&md).unwrap();
+                        let html = markdown_to_html(&md).unwrap();
 
-                    view! {
-                        <article>
-                            <h1>{front.title}</h1>
-                            <article inner_html=html />
-                        </article>
-                    }
-                })
-                .unwrap()
-        }}
+    view! {
+        <article class="post">
+            <header class="post-header">
+                <h1>{front.title}</h1>
+
+                <div class="post-meta">
+                    <span>{front.date.format("%B %-d, %Y").to_string()}</span>
+                    <span>"•"</span>
+                    <span>{front.read_time}" min read"</span>
+                </div>
+
+
+                <div class="post-tags">
+                    {front.tags.clone().unwrap_or(vec![]).iter().map(|tag| {
+                        view! { <span class="post-tag">{tag.clone()}</span> }
+                    }).collect_view()}
+                </div>
+
+
+                <div class="post-excerpt">
+                    <span>{front.excerpt}</span>
+                </div>
+            </header>
+
+            <div class="post-content" inner_html=html />
+        </article>
     }
+                    })
+                    .unwrap()
+            }}
+        }
 }
 
 #[component]
