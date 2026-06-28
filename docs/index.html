@@ -4,16 +4,16 @@
 <head>
   <!-- Add a plain CSS file: see https://trunk-rs.github.io/trunk/guide/assets/#css -->
   <!-- If using Tailwind with Leptos CSR, see https://trunk-rs.github.io/trunk/guide/assets/#tailwind instead-->
-  <link rel="stylesheet" href="/styles-5cfbc701c53abf39.css" integrity="sha384-yP63UZRyfPrAEfkwcjGT9yMSHs0nFwlpNMB0a6umjC+RdAoIX44Qsq8+XzjYFjPg"/>
+  <link rel="stylesheet" href="/styles-896391efe12b7d88.css" integrity="sha384-jbpUVNug2pfIzZZkE06wj6VxuscNKkQr4pbE6iB4QEl2qbigL7f0U23cFlnKwpFl"/>
 
   <!-- Include favicon in dist output: see https://trunk-rs.github.io/trunk/guide/assets/#icon -->
-  <link rel="icon" href="/favicon-26db39358dcae500.ico" integrity="sha384-CmPeFEzbuSzNN8tZPdRefcesP1rYXLszbDFA/X2XLYnVwyZOKVB/Z0yxHxhqVVNJ"/>
+  <link rel="icon" href="/favicon-f070e8a970a5f145.ico" integrity="sha384-O7QU2KUExwCUQD2lBD6XQv2/eWMW+h+mdOPGfvLmFdlu5BwqYF2yTEhRYjw7G25Z"/>
   <!-- include support for `wasm-bindgen --weak-refs` - see: https://rustwasm.github.io/docs/wasm-bindgen/reference/weak-references.html -->
   
   
 <script type="module">
-import init, * as bindings from '/my-page-82303ab187a43bb2.js';
-const wasm = await init({ module_or_path: '/my-page-82303ab187a43bb2_bg.wasm' });
+import init, * as bindings from '/my-page-43506effad225712.js';
+const wasm = await init({ module_or_path: '/my-page-43506effad225712_bg.wasm' });
 
 
 window.wasmBindings = bindings;
@@ -22,7 +22,7 @@ window.wasmBindings = bindings;
 dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
 </script>
-<link rel="modulepreload" href="/my-page-82303ab187a43bb2.js" crossorigin="anonymous" integrity="sha384-NXZXLxs1ie/MF1CvCGN0rRwUUqCgBOzVM4U5mV6Ufgc0bC1MLCE6Nt55QEcIGzn4"><link rel="modulepreload" href="/snippets/my-page-613acc98552127e4/game-loader.js" crossorigin="anonymous" integrity="sha384-INS0IMOBApLH54DMiB5xnlHPP+K7ks1fJ/TtXHLHF1DdmrR3xdAD3DaTYC7P0gmn"><link rel="preload" href="/my-page-82303ab187a43bb2_bg.wasm" crossorigin="anonymous" integrity="sha384-qiIhcE9inKBAtmq9+MtePOq4rNxDaYK6CPtNwUst2V1a8jv8ZesiOXLFdukqC5DZ" as="fetch" type="application/wasm"></head>
+<link rel="modulepreload" href="/my-page-43506effad225712.js" crossorigin="anonymous" integrity="sha384-3dEUGRHIpvMnNPBMQC0JEFmc4a470Ew8F3HiXBI+ejyZlvkk6sdM+o207WAGyB3D"><link rel="modulepreload" href="/snippets/my-page-613acc98552127e4/game-loader.js" crossorigin="anonymous" integrity="sha384-INS0IMOBApLH54DMiB5xnlHPP+K7ks1fJ/TtXHLHF1DdmrR3xdAD3DaTYC7P0gmn"><link rel="preload" href="/my-page-43506effad225712_bg.wasm" crossorigin="anonymous" integrity="sha384-AZuWd9MYiXAn6pFrPTPVaxbrkrYsyNsmE+295TxNHkZgFpXd31NCB+7yhLSvRSQ2" as="fetch" type="application/wasm"></head>
 
 <body></body>
 

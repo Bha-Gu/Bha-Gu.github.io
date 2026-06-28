@@ -1,31 +1,6 @@
 // ==========================================
 // 1. Theme Variables
 // ==========================================
-// :root {
-//   /* Backgrounds */
-//   --bg: #0f172a;
-//   --surface: #162033;
-//   --surface-elevated: #1e293b;
-//
-//   /* Text */
-//   --text: #ffffff;
-//   --text-muted: #94a3b8;
-//
-//   /* Borders */
-//   --border: #334155;
-//
-//   /* Brand */
-//   --primary: #3b82f6;
-//   --primary-hover: #2563eb;
-//
-//   /* Status */
-//   --success: #22c55e;
-//   --warning: #f59e0b;
-//   --danger: #ef4444;
-//
-//   /* Effects */
-//   --shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-// }
 :root {
   /* Backgrounds */
   --bg: #1f1f1f;
@@ -42,6 +17,7 @@
   /* Brand */
   --primary: #FF3589;
   --primary-hover: #FF0358;
+  --link: #3F5F8F;
 
 
   /* Status */
@@ -110,7 +86,7 @@ body {
 }
 
 a {
-  color: var(--primary);
+  color: var(--link);
 }
 
 h1,
@@ -350,6 +326,11 @@ $nav-height: 72px;
 .sidebar {
   position: sticky;
   top: calc(#{$nav-height} + 1.5rem);
+  padding: 1rem 1.25rem;
+
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
 
   width: 220px;
   flex-shrink: 0;
@@ -358,6 +339,8 @@ $nav-height: 72px;
 
   max-height: calc(100vh - 120px);
   overflow-y: auto;
+
+  list-style: none;
 
   &__header {
     margin-bottom: 1rem;
@@ -381,20 +364,21 @@ $nav-height: 72px;
     display: flex;
     flex-direction: column;
     gap: 0.15rem;
+    line-height: 1.35;
 
-    padding-left: 1rem;
+    // padding-left: 1rem;
 
-    &::before {
-      content: "";
-
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-
-      width: 1px;
-      background: var(--border);
-    }
+    // &::before {
+    //   content: "";
+    //
+    //   position: absolute;
+    //   left: 0;
+    //   top: 0;
+    //   bottom: 0;
+    //
+    //   width: 10px;
+    //   background: var(--border);
+    // }
   }
 
   &__link {
@@ -404,7 +388,6 @@ $nav-height: 72px;
 
     padding: 0.45rem 0.75rem;
 
-    color: var(--text-muted);
     text-decoration: none;
 
     border-radius: 6px;
@@ -413,14 +396,23 @@ $nav-height: 72px;
       color 0.3s ease,
       background-color 0.3s ease;
 
+    a {
+    color: var(--text-muted);
+    text-decoration: none;
+    }  
+
     &:hover {
-      color: var(--text);
-      background: rgba(96, 165, 250, 0.08);
+      background: var(--bg);
+      a {
+        color: var(--text);
+      }
     }
 
     &.active {
-      color: var(--primary);
+      a{
+      color: var(--primary-hover);
       font-weight: 600;
+      }
     }
 
     &.active::before {
@@ -431,7 +423,7 @@ $nav-height: 72px;
       top: 50%;
 
       width: 3px;
-      height: 1.2rem;
+      height: 100%;
 
       transform: translateY(-50%);
 
@@ -453,6 +445,9 @@ $nav-height: 72px;
 
 .post-header {
   margin-bottom: 3rem;
+  background: var(--surface);
+  padding: 1rem 1.25rem;
+  border-radius: 13px;
 
   h1 {
     margin: 0;
@@ -477,7 +472,7 @@ $nav-height: 72px;
   margin-top: 1.5rem;
   padding: 1rem 1.25rem;
 
-  background: var(--surface);
+  background: var(--surface-elevated);
   border: 1px solid var(--border);
   border-left: 3px solid var(--primary);
   border-right: 3px solid var(--primary);
@@ -508,11 +503,19 @@ $nav-height: 72px;
 
   color: var(--text-muted);
   font-size: 0.75rem;
+
+  &:hover {
+    
+  border: 1px solid var(--text);
+  background: var(--surface-elevated);
+  }
 }
 
 .post-content {
   margin: 0 auto;
   padding: 3rem 1.5rem;
+  background: var(--surface);
+  border-radius: 13px;
 
   color: var(--text);
   line-height: 1.75;
@@ -561,11 +564,11 @@ $nav-height: 72px;
   }
 
   a {
-    color: var(--primary);
+    color: var(--link);
     text-decoration: none;
 
     &:hover {
-      color: var(--primary-hover);
+      color: var(--link);
       text-decoration: underline;
     }
   }
@@ -580,7 +583,9 @@ $nav-height: 72px;
 
   hr {
     border: 0;
-    border-top: 1px solid var(--border);
+    border-top: 2px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    border-radius: 358px;
     margin: 3rem 0;
   }
 

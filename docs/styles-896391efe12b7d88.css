@@ -11,6 +11,7 @@
   /* Brand */
   --primary: #FF3589;
   --primary-hover: #FF0358;
+  --link: #3F5F8F;
   /* Status */
   --success: #4CAF50;
   --warning: #FFB703;
@@ -58,7 +59,7 @@ body {
 }
 
 a {
-  color: var(--primary);
+  color: var(--link);
 }
 
 h1,
@@ -215,11 +216,16 @@ code {
 .sidebar {
   position: sticky;
   top: calc(72px + 1.5rem);
+  padding: 1rem 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
   width: 220px;
   flex-shrink: 0;
   align-self: flex-start;
   max-height: calc(100vh - 120px);
   overflow-y: auto;
+  list-style: none;
 }
 .sidebar__header {
   margin-bottom: 1rem;
@@ -237,32 +243,28 @@ code {
   display: flex;
   flex-direction: column;
   gap: 0.15rem;
-  padding-left: 1rem;
-}
-.sidebar__section::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: var(--border);
+  line-height: 1.35;
 }
 .sidebar__link {
   position: relative;
   display: block;
   padding: 0.45rem 0.75rem;
-  color: var(--text-muted);
   text-decoration: none;
   border-radius: 6px;
   transition: color 0.3s ease, background-color 0.3s ease;
 }
-.sidebar__link:hover {
-  color: var(--text);
-  background: rgba(96, 165, 250, 0.08);
+.sidebar__link a {
+  color: var(--text-muted);
+  text-decoration: none;
 }
-.sidebar__link.active {
-  color: var(--primary);
+.sidebar__link:hover {
+  background: var(--bg);
+}
+.sidebar__link:hover a {
+  color: var(--text);
+}
+.sidebar__link.active a {
+  color: var(--primary-hover);
   font-weight: 600;
 }
 .sidebar__link.active::before {
@@ -271,7 +273,7 @@ code {
   left: -1rem;
   top: 50%;
   width: 3px;
-  height: 1.2rem;
+  height: 100%;
   transform: translateY(-50%);
   background: var(--primary);
   border-radius: 999px;
@@ -284,6 +286,9 @@ code {
 
 .post-header {
   margin-bottom: 3rem;
+  background: var(--surface);
+  padding: 1rem 1.25rem;
+  border-radius: 13px;
 }
 .post-header h1 {
   margin: 0;
@@ -304,7 +309,7 @@ code {
 .post-excerpt {
   margin-top: 1.5rem;
   padding: 1rem 1.25rem;
-  background: var(--surface);
+  background: var(--surface-elevated);
   border: 1px solid var(--border);
   border-left: 3px solid var(--primary);
   border-right: 3px solid var(--primary);
@@ -332,10 +337,16 @@ code {
   color: var(--text-muted);
   font-size: 0.75rem;
 }
+.post-tag:hover {
+  border: 1px solid var(--text);
+  background: var(--surface-elevated);
+}
 
 .post-content {
   margin: 0 auto;
   padding: 3rem 1.5rem;
+  background: var(--surface);
+  border-radius: 13px;
   color: var(--text);
   line-height: 1.75;
   font-size: 1.05rem;
@@ -375,11 +386,11 @@ code {
   margin: 1.2rem 0;
 }
 .post-content a {
-  color: var(--primary);
+  color: var(--link);
   text-decoration: none;
 }
 .post-content a:hover {
-  color: var(--primary-hover);
+  color: var(--link);
   text-decoration: underline;
 }
 .post-content strong {
@@ -390,7 +401,9 @@ code {
 }
 .post-content hr {
   border: 0;
-  border-top: 1px solid var(--border);
+  border-top: 2px solid var(--border);
+  border-bottom: 2px solid var(--border);
+  border-radius: 358px;
   margin: 3rem 0;
 }
 .post-content ul,
