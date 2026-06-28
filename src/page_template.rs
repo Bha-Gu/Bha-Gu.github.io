@@ -1,3 +1,6 @@
+use leptos::ev::{resize, scroll};
+use leptos::html;
+use leptos::leptos_dom::helpers::window_event_listener;
 use leptos::prelude::*;
 use slug::slugify;
 use wasm_bindgen::{JsCast, closure::Closure};
@@ -7,11 +10,39 @@ use web_sys::{
 
 #[component]
 pub fn SideBarPage(ids: Vec<String>, children: Children) -> impl IntoView {
+    let content_ref = NodeRef::<html::Main>::new();
+    let (progress, set_progress) = signal(0.0);
+
+    let update_progress = move |_| {
+        if let Some(content) = content_ref.get() {
+            let rect = content.get_bounding_client_rect();
+
+            let viewport = web_sys::window()
+                .unwrap()
+                .inner_height()
+                .unwrap()
+                .as_f64()
+                .unwrap();
+
+            let denom = rect.height() - viewport;
+
+            let p = if denom <= 0.0 {
+                if rect.top() <= 0.0 { 1.0 } else { 0.0 }
+            } else {
+                (-rect.top() / denom).clamp(0.0, 1.0)
+            };
+
+            set_progress.set(p);
+        }
+    };
+
+    let _scroll_listener = window_event_listener(scroll, update_progress);
+
     view! {
         <div class="page-layout">
-            <main class="page-content">{children()}</main>
+            <main node_ref=content_ref class="page-content">{children()}</main>
 
-            <SideBar ids=ids />
+            <SideBar ids=ids progress=progress/>
         </div>
     }
 }
@@ -27,7 +58,10 @@ pub fn StaticPage(children: Children) -> impl IntoView {
 }
 
 #[component]
-fn SideBar(ids: Vec<String>) -> impl IntoView {
+fn SideBar(
+    ids: Vec<String>,
+    #[prop(default = signal(0.0).0)] progress: ReadSignal<f64>,
+) -> impl IntoView {
     let active = RwSignal::new(String::new());
 
     let ids_clone = ids.clone();
@@ -83,11 +117,21 @@ fn SideBar(ids: Vec<String>) -> impl IntoView {
         .collect::<Vec<_>>();
 
     view! {
-        <aside class="sidebar">
+        <aside class="sidebar" style=move || format!("--progress: {}%;", progress.get() * 100.0) >
+
             <div class="sidebar__header">
                 <span class="sidebar__title">"On This Page"</span>
-            </div>
-            <hr />
+
+
+    </div>
+    //     <div class="progress-track">
+    //     <div
+    //         class="progress-fill"
+    //         style=move || format!("--progress: {}%;", progress.get() * 100.0)
+    //     />
+    // </div>
+
+        <hr />
             <div class="sidebar__section">{items}</div>
         </aside>
     }

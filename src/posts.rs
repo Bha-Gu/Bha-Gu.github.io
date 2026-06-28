@@ -1,4 +1,4 @@
-use crate::page_template::SideBarPage;
+use crate::page_template::{SideBarPage, StaticPage};
 use chrono::{DateTime, FixedOffset};
 use gray_matter::{Matter, engine::YAML};
 use leptos::prelude::*;
@@ -201,7 +201,7 @@ pub fn PostPage() -> impl IntoView {
                     let (html, ids) = markdown_to_html(&md).unwrap();
 
                     view! {
-                        <SideBarPage ids=ids>
+                        <StaticPage>
                             <article class="post">
                                 <header class="post-header">
                                     <h1>{front.title}</h1>
@@ -228,10 +228,11 @@ pub fn PostPage() -> impl IntoView {
                                         <span>{front.excerpt}</span>
                                     </div>
                                 </header>
-
-                                <div class="post-content" inner_html=html />
+                                <SideBarPage ids=ids>
+                                    <div class="post-content" inner_html=html />
+                                </SideBarPage>
                             </article>
-                        </SideBarPage>
+                        </StaticPage>
                     }
                 })
                 .unwrap()

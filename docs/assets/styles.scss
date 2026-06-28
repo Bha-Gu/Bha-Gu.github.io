@@ -154,6 +154,23 @@ code {
   min-width: 0;
 
   padding: 0 5rem;
+
+
+  .page-layout {
+    display: flex;
+    gap: 0rem;
+
+    margin: 0 auto;
+
+    padding: 0rem 0rem;
+  }
+  .page-content {
+    flex: 1;
+    min-width: 0;
+
+    padding: 0 4rem;
+  }
+
 }
 
 
@@ -341,6 +358,21 @@ $nav-height: 72px;
   overflow-y: auto;
 
   list-style: none;
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 3px;
+    height: var(--progress, 0%);
+
+    background: var(--primary);
+    border-radius: 3px;
+
+    transition: height 100ms linear;
+  }
 
   &__header {
     margin-bottom: 1rem;

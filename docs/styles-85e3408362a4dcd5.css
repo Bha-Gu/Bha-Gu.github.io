@@ -108,6 +108,17 @@ code {
   min-width: 0;
   padding: 0 5rem;
 }
+.page-content .page-layout {
+  display: flex;
+  gap: 0rem;
+  margin: 0 auto;
+  padding: 0rem 0rem;
+}
+.page-content .page-content {
+  flex: 1;
+  min-width: 0;
+  padding: 0 4rem;
+}
 
 .navbar {
   position: sticky;
@@ -226,6 +237,17 @@ code {
   max-height: calc(100vh - 120px);
   overflow-y: auto;
   list-style: none;
+}
+.sidebar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 3px;
+  height: var(--progress, 0%);
+  background: var(--primary);
+  border-radius: 3px;
+  transition: height 100ms linear;
 }
 .sidebar__header {
   margin-bottom: 1rem;
