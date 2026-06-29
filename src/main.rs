@@ -38,23 +38,21 @@ pub fn Breadcrumbs() -> impl IntoView {
     };
 
     view! {
-        <nav>
-            <a href="/">"Home"</a>
+    <p class="breadcrumb">
+        <a href="/">"Home"</a>
 
-            <For
-                each=move || breadcrumbs()
-                key=|(href, _)| href.clone()
-                children=move |(href, label)| {
-                    view! {
-                        <>
-                            {" / "}
-                            <a href=href>{label}</a>
-                        </>
-                    }
+        <For
+            each=move || breadcrumbs()
+            key=|(href, _)| href.clone()
+            children=move |(href, label)| {
+                view! {
+                    <span>"/"</span>
+                    <a href=href>{label}</a>
                 }
-            />
-        </nav>
-    }
+            }
+        />
+    </p>
+        }
 }
 
 fn main() {

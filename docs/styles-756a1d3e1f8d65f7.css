@@ -132,6 +132,7 @@ code {
   color: var(--text);
   font-size: 1.35rem;
   font-weight: 700;
+  padding: 0.75rem 1rem;
   text-decoration: none;
   transition: color 0.3s ease;
 }
@@ -212,6 +213,39 @@ code {
 }
 .navbar__theme-option:first-child {
   color: white;
+}
+
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  margin-left: 2.5rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+.breadcrumb a {
+  color: var(--link);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.breadcrumb a:hover {
+  color: var(--primary);
+}
+.breadcrumb a:last-child {
+  color: var(--text);
+  font-weight: 600;
+  pointer-events: none;
+  letter-spacing: 0.16em;
+  border-radius: 2px;
+  padding: 2px 9px;
+  background: var(--surface-elevated);
+  cursor: default;
+  text-decoration: none;
 }
 
 .sidebar {

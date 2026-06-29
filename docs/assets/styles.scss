@@ -199,7 +199,7 @@ $nav-height: 72px;
 
     font-size: 1.35rem;
     font-weight: 700;
-
+padding: 0.75rem 1rem;
     text-decoration: none;
     transition: color 0.3s ease;
   }
@@ -329,6 +329,48 @@ $nav-height: 72px;
   }
 }
 
+
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  margin-left: 2.5rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+text-transform: uppercase;
+letter-spacing: 0.18em;
+  a {
+    color: var(--link);
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--primary);      
+    }
+
+    // &:not(:last-child)::after {
+    //   content: "/";
+    //   margin: 0 0.6rem;
+    //   color: var(--text-muted);
+    // }
+
+    &:last-child {
+      color: var(--text);
+      font-weight: 600;
+      pointer-events: none;
+letter-spacing: 0.16em;
+border-radius: 2px;
+padding: 2px 9px;
+      background: var(--surface-elevated);
+    cursor: default;
+    text-decoration: none;
+    }
+  }
+}
 
 // ==========================================
 // Sidebar TOC
