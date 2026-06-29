@@ -11,8 +11,12 @@ js-sys = "0.3.103"
 leptos = { version = "0.8.19", features = ["csr"] }
 leptos_router = "0.8.13"
 pulldown-cmark = "0.13.4"
-rust-embed = { version = "8.11.0", features = ["include-exclude"] }
+rust-embed = { version = "8.11.0", features = ["include-exclude", "debug-embed"] }
 serde = { version = "1.0.228", features = ["derive"] }
 slug = "0.1.6"
 wasm-bindgen = "0.2.126"
 web-sys = { version = "0.3.102", features = ["DomRect", "IntersectionObserver", "IntersectionObserverEntry", "IntersectionObserverInit"] }
+
+
+[env]
+RUSTFLAGS = "--cfg=web_sys_unstable_apis"

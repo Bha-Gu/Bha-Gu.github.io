@@ -16,6 +16,7 @@ pub fn GamePage(
 #[component]
 pub fn GameList() -> impl IntoView {
     view! {
+
         <StaticPage>
             <div class="game-list">
                 <h2>"Games"</h2>

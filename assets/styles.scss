@@ -19,11 +19,14 @@
   --primary-hover: #FF0358;
   --link: #3F5F8F;
 
+  --navbar-height: 72px;
 
   /* Status */
   --success: #4CAF50;
   --warning: #FFB703;
   --danger: #E63946;
+
+
 
   /* Effects */
   --shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
@@ -82,7 +85,7 @@ body {
 }
 
 [id] {
-  scroll-margin-top: 96px;
+  scroll-margin-top: calc(var(--navbar-height) + 2rem);
 }
 
 a {
@@ -142,34 +145,20 @@ code {
 
 .page-layout {
   display: flex;
-  gap: 4rem;
+  gap: 4rem; //
 
-  margin: 0 auto;
+  margin: 0 0;
 
-  padding: 2rem 4rem;
+  padding: 2rem 3%;
 }
 
 .page-content {
   flex: 1;
   min-width: 0;
 
-  padding: 0 5rem;
+  margin: 0 0;
+  padding: 0 1%;
 
-
-  .page-layout {
-    display: flex;
-    gap: 0rem;
-
-    margin: 0 auto;
-
-    padding: 0rem 0rem;
-  }
-  .page-content {
-    flex: 1;
-    min-width: 0;
-
-    padding: 0 4rem;
-  }
 
 }
 
@@ -185,11 +174,15 @@ $nav-height: 72px;
   top: 0;
   z-index: 1000;
 
-  height: $nav-height;
+  height: var(--navbar-height);
 
   background: var(--surface);
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow);
+  transition: 
+    background 0.3s ease,
+    border-bottom 0.3s ease,
+    box-shadow 0.3s ease;
 
   &__container {
     display: flex;
@@ -198,7 +191,7 @@ $nav-height: 72px;
 
     height: 100%;
 
-    padding: 0 2rem;
+    padding: 0 1%;
   }
 
   &__logo {
@@ -208,6 +201,7 @@ $nav-height: 72px;
     font-weight: 700;
 
     text-decoration: none;
+    transition: color 0.3s ease;
   }
 
   &__menu {
@@ -260,8 +254,8 @@ $nav-height: 72px;
     display: flex;
     align-items: center;
 
-    width: 84px;
-    height: 38px;
+    width: calc(4rem + 8px);
+    height: calc(2rem + 8px);
 
     padding: 3px;
 
@@ -281,7 +275,7 @@ $nav-height: 72px;
 
     &.dark {
       .navbar__theme-slider {
-        transform: translateX(38px);
+        transform: translateX(2rem);
       }
 
       .navbar__theme-option:last-child {
@@ -296,19 +290,19 @@ $nav-height: 72px;
 
   &__theme-slider {
     position: absolute;
-    top: 3px;
-    left: 3px;
+    // top: 3px;
+    // left: 3px;
 
-    width: 38px;
-    height: 30px;
+    width: 2rem;
+    height: 2rem;
 
     border-radius: 999px;
 
     background: var(--text-muted);
-
-    box-shadow:
-      0 1px 3px rgba(0, 0, 0, 0.15),
-      0 2px 8px rgba(0, 0, 0, 0.1);
+    //
+    // box-shadow:
+    //   0 1px 3px rgba(0, 0, 0, 0.15),
+    //   0 2px 8px rgba(0, 0, 0, 0.1);
 
     transition:
       transform 0.3s ease,
@@ -342,7 +336,7 @@ $nav-height: 72px;
 
 .sidebar {
   position: sticky;
-  top: calc(#{$nav-height} + 1.5rem);
+  top: calc(var(--navbar-height) + 1.5rem);
   padding: 1rem 1.25rem;
 
   background: var(--surface);
@@ -358,6 +352,12 @@ $nav-height: 72px;
   overflow-y: auto;
 
   list-style: none;
+
+
+  transition: 
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.3s ease;
 
   &::after {
     content: "";
@@ -388,6 +388,8 @@ $nav-height: 72px;
     text-transform: uppercase;
 
     color: var(--text-muted);
+  transition: 
+    color 0.3s ease;
   }
 
   &__section {
@@ -398,19 +400,6 @@ $nav-height: 72px;
     gap: 0.15rem;
     line-height: 1.35;
 
-    // padding-left: 1rem;
-
-    // &::before {
-    //   content: "";
-    //
-    //   position: absolute;
-    //   left: 0;
-    //   top: 0;
-    //   bottom: 0;
-    //
-    //   width: 10px;
-    //   background: var(--border);
-    // }
   }
 
   &__link {
@@ -471,8 +460,8 @@ $nav-height: 72px;
 
 
 .post {
-  margin: 0 auto;
-  padding: 3rem 7%;
+  margin: 0 0;
+  padding: 3rem 0;
 }
 
 .post-header {
@@ -481,11 +470,18 @@ $nav-height: 72px;
   padding: 1rem 1.25rem;
   border-radius: 13px;
 
+  transition: 
+    background 0.3s ease;
+
+
+
   h1 {
     margin: 0;
     color: var(--text);
     font-size: 2.5rem;
     line-height: 1.15;
+
+    transition: color 0.3s ease;
   }
 }
 
@@ -497,6 +493,7 @@ $nav-height: 72px;
   margin-top: 1rem;
 
   color: var(--text-muted);
+  transition: color 0.3s ease;
   font-size: 0.9rem;
 }
 
@@ -509,10 +506,14 @@ $nav-height: 72px;
   border-left: 3px solid var(--primary);
   border-right: 3px solid var(--primary);
   border-radius: 7px;
+  transition: 
+    border 0.3s ease,
+    background-color 0.3s ease;
 
   span {
     display: block;
     color: var(--text-muted);
+    transition: color 0.3s ease;
     font-size: 1.05rem;
     line-height: 1.7;
   }
@@ -534,6 +535,10 @@ $nav-height: 72px;
   background: var(--bg);
 
   color: var(--text-muted);
+  transition: 
+    color 0.3s ease,
+    background-color 0.3s ease,
+    border 0.3s ease;
   font-size: 0.75rem;
 
   &:hover {
@@ -552,6 +557,9 @@ $nav-height: 72px;
   color: var(--text);
   line-height: 1.75;
   font-size: 1.05rem;
+  transition: 
+    color 0.3s ease,
+    background-color 0.3s ease;
 
   > *:first-child {
     margin-top: 0;
@@ -569,7 +577,8 @@ $nav-height: 72px;
     font-weight: 700;
     line-height: 1.25;
     margin-top: 2.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 1rem;  
+    transition: color 0.3s ease;
   }
 
   h1 {
@@ -581,6 +590,8 @@ $nav-height: 72px;
     font-size: 1.8rem;
     border-bottom: 1px solid var(--border);
     padding-bottom: 0.4rem;
+
+    transition: border 0.3s ease;
   }
 
   h3 {
@@ -619,6 +630,7 @@ $nav-height: 72px;
     border-bottom: 2px solid var(--border);
     border-radius: 358px;
     margin: 3rem 0;
+    transition: border-color 0.3s ease;
   }
 
   ul,
@@ -639,6 +651,7 @@ $nav-height: 72px;
 
     color: var(--text-muted);
     font-style: italic;
+    transition: color 0.3s ease;
   }
 
   code {
@@ -648,7 +661,9 @@ $nav-height: 72px;
     border-radius: 4px;
 
     background: var(--surface-elevated);
-
+    transition: 
+      background-color 0.3s ease,
+      border-color 0.3s ease;
     font-family:
       "JetBrains Mono",
       "SFMono-Regular",
@@ -667,6 +682,9 @@ $nav-height: 72px;
     border-radius: 10px;
 
     background: var(--surface);
+    transition: 
+      background-color 0.3s ease,
+      border-color 0.3s ease;
 
     code {
       padding: 0;
@@ -694,7 +712,8 @@ $nav-height: 72px;
     td {
       padding: 0.75rem 1rem;
       border: 1px solid var(--border);
-      text-align: left;
+      text-align: left;    
+      transition: border-color 0.3s ease;
     }
 
     th {
@@ -704,6 +723,8 @@ $nav-height: 72px;
 
     tr:nth-child(even) {
       background: var(--surface-elevated);
+
+      transition: background-color 0.3s ease;
     }
   }
 }
@@ -719,6 +740,7 @@ $nav-height: 72px;
     font-size: 2rem;
     font-weight: 700;
     color: var(--text);
+    transition: color 0.3s ease;
   }
 }
 
@@ -734,6 +756,7 @@ $nav-height: 72px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--text-muted);
+    transition: color 0.3s ease;
 }
 
 .post-tags {
@@ -753,6 +776,10 @@ $nav-height: 72px;
   color: var(--text-muted);
   font-size: 0.75rem;
   line-height: 1.4;
+    transition: 
+      color 0.3s ease,
+      background-color 0.3s ease,
+      border-color 0.3s ease;
 }
 
   a {
@@ -784,6 +811,7 @@ $nav-height: 72px;
       margin: 0;
       color: var(--text);
 
+    transition: color 0.3s ease;
       font-size: 1.15rem;
       font-weight: 600;
       line-height: 1.35;
@@ -792,6 +820,7 @@ $nav-height: 72px;
     p {
       margin: 0.75rem 0 0;
       color: var(--text-muted);
+    transition: color 0.3s ease;
       line-height: 1.6;
       font-size: 0.95rem;
     }
@@ -801,6 +830,7 @@ $nav-height: 72px;
       margin-top: 1rem;
 
       color: var(--text-muted);
+    transition: color 0.3s ease;
       font-size: 0.85rem;
     }
   }

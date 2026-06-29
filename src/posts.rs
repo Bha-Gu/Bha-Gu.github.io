@@ -176,9 +176,7 @@ pub fn PostList() -> impl IntoView {
 
 #[component]
 pub fn PostRoot() -> impl IntoView {
-    view! {
-            <Outlet />
-    }
+    view! { <Outlet /> }
 }
 
 #[component]

@@ -1,4 +1,4 @@
-use leptos::ev::{resize, scroll};
+use leptos::ev::scroll;
 use leptos::html;
 use leptos::leptos_dom::helpers::window_event_listener;
 use leptos::prelude::*;
@@ -13,36 +13,56 @@ pub fn SideBarPage(ids: Vec<String>, children: Children) -> impl IntoView {
     let content_ref = NodeRef::<html::Main>::new();
     let (progress, set_progress) = signal(0.0);
 
-    let update_progress = move |_| {
-        if let Some(content) = content_ref.get() {
-            let rect = content.get_bounding_client_rect();
+    let (scroll_tick, set_scroll_tick) = signal(());
 
-            let viewport = web_sys::window()
-                .unwrap()
-                .inner_height()
-                .unwrap()
-                .as_f64()
-                .unwrap();
+    let listener = window_event_listener(scroll, move |_| {
+        set_scroll_tick.set(());
+    });
 
-            let denom = rect.height() - viewport;
+    Effect::new(move |_| {
+        // Re-run whenever a scroll event occurs.
+        scroll_tick.get();
 
-            let p = if denom <= 0.0 {
-                if rect.top() <= 0.0 { 1.0 } else { 0.0 }
+        let Some(content) = content_ref.get() else {
+            return;
+        };
+
+        let rect = content.get_bounding_client_rect();
+
+        let Some(window) = web_sys::window() else {
+            return;
+        };
+
+        let Ok(height) = window.inner_height() else {
+            return;
+        };
+
+        let Some(viewport) = height.as_f64() else {
+            return;
+        };
+
+        let denom = rect.height() - viewport;
+
+        let progress = if denom <= 0.0 {
+            if rect.top() + rect.height() <= viewport {
+                1.0
             } else {
-                (-rect.top() / denom).clamp(0.0, 1.0)
-            };
+                0.0
+            }
+        } else {
+            (-rect.top() / denom).clamp(0.0, 1.0)
+        };
 
-            set_progress.set(p);
-        }
-    };
-
-    let _scroll_listener = window_event_listener(scroll, update_progress);
-
+        set_progress.set(progress);
+    });
     view! {
         <div class="page-layout">
-            <main node_ref=content_ref class="page-content">{children()}</main>
+            <main node_ref=content_ref class="page-content">
+                {children()}
+            </main>
 
-            <SideBar ids=ids progress=progress/>
+            <SideBar ids=ids progress=progress />
+
         </div>
     }
 }
@@ -72,18 +92,17 @@ fn SideBar(
 
             move |entries: js_sys::Array, _| {
                 for entry in entries.iter() {
-                    let entry: IntersectionObserverEntry = entry.unchecked_into();
+                    let entry: IntersectionObserverEntry = entry.into();
 
                     if entry.is_intersecting() {
-                        let element: Element = entry.target().unchecked_into();
+                        let element: Element = entry.target().into();
                         active.set(element.id());
                     }
                 }
             }
         });
 
-        let mut options = IntersectionObserverInit::new();
-        options.set_root_margin("-80px 0px -70% 0px");
+        let options = IntersectionObserverInit::new();
         options.set_threshold(&0.0.into());
 
         let observer =
@@ -109,7 +128,13 @@ fn SideBar(
         .map(|id| {
             let slug = slugify(id.clone());
             view! {
-                <li class:active={let slug = slug.clone(); move || active.get() == slug} class="sidebar__link">
+                <li
+                    class:active={
+                        let slug = slug.clone();
+                        move || active.get() == slug
+                    }
+                    class="sidebar__link"
+                >
                     <a href=format!("#{slug}")>{id.clone()}</a>
                 </li>
             }
@@ -117,21 +142,14 @@ fn SideBar(
         .collect::<Vec<_>>();
 
     view! {
-        <aside class="sidebar" style=move || format!("--progress: {}%;", progress.get() * 100.0) >
+        <aside class="sidebar" style=move || format!("--progress: {}%;", progress.get() * 100.0)>
 
             <div class="sidebar__header">
                 <span class="sidebar__title">"On This Page"</span>
 
+            </div>
 
-    </div>
-    //     <div class="progress-track">
-    //     <div
-    //         class="progress-fill"
-    //         style=move || format!("--progress: {}%;", progress.get() * 100.0)
-    //     />
-    // </div>
-
-        <hr />
+            <hr />
             <div class="sidebar__section">{items}</div>
         </aside>
     }
