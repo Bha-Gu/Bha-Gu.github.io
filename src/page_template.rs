@@ -57,7 +57,7 @@ pub fn SideBarPage(ids: Vec<String>, children: Children) -> impl IntoView {
     });
     view! {
         <div class="page-layout">
-            <main node_ref=content_ref class="page-content">
+            <main node_ref=content_ref class="page-content"  >
                 {children()}
             </main>
 
@@ -71,7 +71,7 @@ pub fn SideBarPage(ids: Vec<String>, children: Children) -> impl IntoView {
 pub fn StaticPage(children: Children) -> impl IntoView {
     view! {
         <div class="page-layout">
-            <main class="page-content">{children()}</main>
+            <main class="page-content"  >{children()}</main>
 
         </div>
     }

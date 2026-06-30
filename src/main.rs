@@ -9,7 +9,7 @@ mod posts;
 use about::About;
 use game_page::{GameList, GamePage};
 use home::Home;
-use navbar::NavBar;
+use navbar::{NavBar, NavBarHam};
 use posts::{PostList, PostPage, PostRoot};
 
 use leptos::mount::mount_to_body;
@@ -66,8 +66,8 @@ fn App() -> impl IntoView {
 
     view! {
         <Router>
-            <NavBar navbar_list=routes />
-        <Breadcrumbs />
+            <NavBar navbar_list=routes.clone() />
+            <NavBarHam navbar_list=routes />
             <Routes fallback=|| "Not found.">
                 // / just has an un-nested "Home"
 
