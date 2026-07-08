@@ -1,0 +1,46 @@
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+
+  background: var(--bg);
+  color: var(--text);
+
+  font-family: Inter, system-ui, sans-serif;
+
+  line-height: 1.65;
+
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
+}
+
+[id] {
+  scroll-margin-top: calc(var(--navbar-height) + 2rem);
+}
+
+a {
+  color: var(--link);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+
+  line-height: 1.2;
+}
+
+p {
+  margin: 1rem 0;
+}
+
+* {
+  transition: all 358ms ease;
+}

@@ -1,0 +1,22 @@
+pre {
+  overflow-x: auto;
+
+  padding: 1rem 1.25rem;
+
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+code {
+  font-family: "JetBrains Mono", "Fira Code", monospace;
+}
+
+:not(pre) > code {
+  padding: 0.15rem 0.4rem;
+
+  background: var(--surface);
+  border-radius: 6px;
+
+  font-size: 0.9em;
+}

@@ -1,46 +1,86 @@
+
 use crate::Breadcrumbs;
+use leptos::html::Div;
 use leptos::prelude::*;
 use leptos_router::components::A;
+use leptos_use::{OnClickOutsideOptions, on_click_outside_with_options};
 use web_sys::window;
 
 #[component]
 fn ThemeToggle() -> impl IntoView {
-    let (dark_mode, set_dark_mode) = signal(true);
-
-    let toggle_theme = move |_| {
-        let new_theme = !dark_mode.get();
-        set_dark_mode.set(new_theme);
+    let dark = RwSignal::new(true);
+    Effect::new(move |_| {
+        let theme = dark.get();
 
         if let Some(document) = window().and_then(|w| w.document())
             && let Some(html) = document.document_element()
         {
-            let theme = if new_theme { "dark" } else { "light" };
-
-            let _ = html.set_attribute("data-theme", theme);
+            match theme {
+                false => {
+                    let _ = html.set_attribute("data-theme", "light");
+                }
+                true => {
+                    let _ = html.set_attribute("data-theme", "dark");
+                }
+            }
         }
-    };
+    });
+    view! {
+        <form class="navbar__theme-switch">
+            <label>
+                <input
+                    class="navbar__theme-switch"
+
+                    type="checkbox"
+                    bind:checked=dark
+                />
+            </label>
+        </form>
+    }
+}
+
+#[component]
+pub fn NavBarNew(navbar_list: Vec<&'static str>) -> impl IntoView {
+    let navbar_items = navbar_list
+        .into_iter()
+        .map(|item| {
+            view! {
+                <li class="navbar__item">
+                    <A
+                        href=match item {
+                            "Home" => String::from("/"),
+                            item => format!("/{item}"),
+                        }
+                        attr:class="navbar__link"
+                    >
+                        {item}
+                    </A>
+                </li>
+            }
+        })
+        .collect::<Vec<_>>();
 
     view! {
-        <button
-            class=move || {
-                if dark_mode.get() { "navbar__theme-switch dark" } else { "navbar__theme-switch" }
-            }
-            on:click=toggle_theme
-            aria-label="Toggle theme"
-        >
-            <span class="navbar__theme-slider"></span>
+        <nav class="navbar">
+            <div class="navbar__container">
+                <ul class="navbar__menu">
+                    <p class="navbar__logo">"Under Construction"</p>
+                    <Breadcrumbs />
+                </ul>
+                <ul class="navbar__menu">
+                    {navbar_items} <li>
 
-            <span class="navbar__theme-option">"☀️"</span>
+                        <ThemeToggle />
+                    </li>
+                </ul>
 
-            <span class="navbar__theme-option">"🌙"</span>
-        </button>
+            </div>
+        </nav>
     }
 }
 
 #[component]
 pub fn NavBar(navbar_list: Vec<&'static str>) -> impl IntoView {
-    // let navbar_list = vec!["Home", "Contact", "Posts", "Games"];
-
     let navbar_items = navbar_list
         .into_iter()
         .map(|item| {
@@ -65,7 +105,7 @@ pub fn NavBar(navbar_list: Vec<&'static str>) -> impl IntoView {
         <nav class="navbar">
             <div class="navbar__container">
                 <ul class="navbar__menu">
-                    <p class="navbar__logo">"MySite"</p>
+                    <p class="navbar__logo">"Under Construction"</p>
                     <Breadcrumbs />
                 </ul>
                 <ul class="navbar__menu">
@@ -82,10 +122,13 @@ pub fn NavBar(navbar_list: Vec<&'static str>) -> impl IntoView {
 
 #[component]
 pub fn NavBarHam(navbar_list: Vec<&'static str>) -> impl IntoView {
-    // let navbar_list = vec!["Home", "Contact", "Posts", "Games"];
-
+    let target = NodeRef::<Div>::new();
     let (is_open, set_open) = signal(false);
-
+    let _ = on_click_outside_with_options(
+        target,
+        move |_| set_open.set(false),
+        OnClickOutsideOptions::default().ignore([".navbar_ham__icon"]),
+    );
     let navbar_items = navbar_list
         .into_iter()
         .map(|item| {
@@ -111,18 +154,21 @@ pub fn NavBarHam(navbar_list: Vec<&'static str>) -> impl IntoView {
             <div class="navbar_ham__container">
                 <p class="navbar__logo">"MySite"</p>
                 <Breadcrumbs />
-                <div on:click=move |_| set_open.update(|val| *val = !*val) class:open=move || is_open.get() class="navbar_ham__icon">
-                     <span></span>
+                <div
+                    on:click=move |_| set_open.update(|val| *val = !*val)
+                    class:open=move || is_open.get()
+                    class="navbar_ham__icon"
+                >
+                    <span></span>
                     <span></span>
                     <span></span>
                 </div>
-                <ul class:open=move || is_open.get() class="navbar_ham__menu">
+                <div node_ref=target class:open=move || is_open.get() class="navbar_ham__menu">
                     {navbar_items}
-            // <li>
-
-                        // <ThemeToggle />
-                    // </li>
-                </ul>
+                    <li>
+                        <ThemeToggle />
+                    </li>
+                </div>
 
             </div>
         </nav>

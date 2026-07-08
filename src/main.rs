@@ -6,18 +6,19 @@ mod home;
 mod navbar;
 mod page_template;
 mod posts;
+mod secret;
 use about::About;
 use game_page::{GameList, GamePage};
 use home::Home;
 use navbar::{NavBar, NavBarHam};
 use posts::{PostList, PostPage, PostRoot};
+use secret::SecretPageLogin;
 
 use leptos::mount::mount_to_body;
 use leptos::prelude::*;
 use leptos_router::components::{Outlet, ParentRoute, Route, Router, Routes};
-use leptos_router::path;
-
 use leptos_router::hooks::use_location;
+use leptos_router::path;
 
 #[component]
 pub fn Breadcrumbs() -> impl IntoView {
@@ -38,21 +39,21 @@ pub fn Breadcrumbs() -> impl IntoView {
     };
 
     view! {
-    <p class="breadcrumb">
-        <a href="/">"Home"</a>
+        <p class="breadcrumb">
+            <a href="/">"Home"</a>
 
-        <For
-            each=move || breadcrumbs()
-            key=|(href, _)| href.clone()
-            children=move |(href, label)| {
-                view! {
-                    <span>"/"</span>
-                    <a href=href>{label}</a>
+            <For
+                each=move || breadcrumbs()
+                key=|(href, _)| href.clone()
+                children=move |(href, label)| {
+                    view! {
+                        <span>"/"</span>
+                        <a href=href>{label}</a>
+                    }
                 }
-            }
-        />
-    </p>
-        }
+            />
+        </p>
+    }
 }
 
 fn main() {
@@ -62,7 +63,7 @@ fn main() {
 
 #[component]
 fn App() -> impl IntoView {
-    let routes = vec!["Home", "About", "Posts", "Games"];
+    let routes = vec!["Home", "About", "Posts", "Games", "Secret"];
 
     view! {
         <Router>
@@ -86,6 +87,12 @@ fn App() -> impl IntoView {
                     <Route path=path!(":slug") view=PostPage />
                 </ParentRoute>
 
+                <ParentRoute path=path!("/Secret") view=SecretPageLogin>
+
+                    <Route path=path!("") view=PostList />
+
+                    <Route path=path!(":slug") view=PostPage />
+                </ParentRoute>
             </Routes>
         </Router>
     }
