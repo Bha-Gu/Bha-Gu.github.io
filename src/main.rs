@@ -10,7 +10,7 @@ mod secret;
 use about::About;
 use game_page::{GameList, GamePage};
 use home::Home;
-use navbar::{NavBar, NavBarHam};
+use navbar::NavBar;
 use posts::{PostList, PostPage, PostRoot};
 use secret::SecretPageLogin;
 
@@ -67,8 +67,7 @@ fn App() -> impl IntoView {
 
     view! {
         <Router>
-            <NavBar navbar_list=routes.clone() />
-            <NavBarHam navbar_list=routes />
+            <NavBar navbar_list=routes />
             <Routes fallback=|| "Not found.">
                 // / just has an un-nested "Home"
 

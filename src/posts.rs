@@ -1,10 +1,10 @@
 use crate::page_template::{SideBarPage, StaticPage};
 use chrono::{DateTime, FixedOffset};
-use gray_matter::{Matter, engine::YAML};
+use gray_matter::{engine::YAML, Matter};
 use leptos::prelude::*;
-use leptos_router::components::{A, Outlet};
+use leptos_router::components::{Outlet, A};
 use leptos_router::hooks::use_params_map;
-use pulldown_cmark::{CowStr, Event, HeadingLevel, Options, Parser, Tag, TagEnd, html};
+use pulldown_cmark::{html, CowStr, Event, HeadingLevel, Options, Parser, Tag, TagEnd};
 use rust_embed::RustEmbed;
 use serde::Deserialize;
 use slug::slugify;
@@ -197,6 +197,7 @@ pub fn PostPage() -> impl IntoView {
                 .map(|md| {
                     let front = extract_front_matter(&md).unwrap();
                     let (html, ids) = markdown_to_html(&md).unwrap();
+                    let html_copy = html.clone();
 
                     view! {
                         <StaticPage>
@@ -226,8 +227,12 @@ pub fn PostPage() -> impl IntoView {
                                         <span>{front.excerpt}</span>
                                     </div>
                                 </header>
-                                <SideBarPage ids=ids>
+                                <SideBarPage ids=ids.clone()>
                                     <div class="post-content" inner_html=html />
+                                </SideBarPage>
+
+                                <SideBarPage ids=ids>
+                                    <div class="post-content" inner_html=html_copy />
                                 </SideBarPage>
                             </article>
                         </StaticPage>

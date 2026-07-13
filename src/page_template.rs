@@ -3,26 +3,20 @@ use leptos::html;
 use leptos::leptos_dom::helpers::window_event_listener;
 use leptos::prelude::*;
 use slug::slugify;
-use wasm_bindgen::{JsCast, closure::Closure};
+use wasm_bindgen::{closure::Closure, JsCast};
 use web_sys::{
-    Element, IntersectionObserver, IntersectionObserverEntry, IntersectionObserverInit, window,
+    window, Element, IntersectionObserver, IntersectionObserverEntry, IntersectionObserverInit,
 };
+
+// sync with css --navbar-height: {}px; keep it in px
+const NAVBAR_HEIGHT: f64 = 72.;
 
 #[component]
 pub fn SideBarPage(ids: Vec<String>, children: Children) -> impl IntoView {
     let content_ref = NodeRef::<html::Main>::new();
     let (progress, set_progress) = signal(0.0);
 
-    let (scroll_tick, set_scroll_tick) = signal(());
-
     let listener = window_event_listener(scroll, move |_| {
-        set_scroll_tick.set(());
-    });
-
-    Effect::new(move |_| {
-        // Re-run whenever a scroll event occurs.
-        scroll_tick.get();
-
         let Some(content) = content_ref.get() else {
             return;
         };
@@ -41,7 +35,7 @@ pub fn SideBarPage(ids: Vec<String>, children: Children) -> impl IntoView {
             return;
         };
 
-        let denom = rect.height() - viewport;
+        let denom = rect.height() - viewport + NAVBAR_HEIGHT;
 
         let progress = if denom <= 0.0 {
             if rect.top() + rect.height() <= viewport {
@@ -50,14 +44,17 @@ pub fn SideBarPage(ids: Vec<String>, children: Children) -> impl IntoView {
                 0.0
             }
         } else {
-            (-rect.top() / denom).clamp(0.0, 1.0)
+            ((NAVBAR_HEIGHT - rect.top()) / denom).clamp(0.0, 1.0)
         };
 
         set_progress.set(progress);
     });
+
+    on_cleanup(|| listener.remove());
+
     view! {
         <div class="page-layout">
-            <main node_ref=content_ref class="page-content"  >
+            <main node_ref=content_ref class="page-content">
                 {children()}
             </main>
 
@@ -71,7 +68,7 @@ pub fn SideBarPage(ids: Vec<String>, children: Children) -> impl IntoView {
 pub fn StaticPage(children: Children) -> impl IntoView {
     view! {
         <div class="page-layout">
-            <main class="page-content"  >{children()}</main>
+            <main class="page-content">{children()}</main>
 
         </div>
     }
@@ -142,7 +139,10 @@ fn SideBar(
         .collect::<Vec<_>>();
 
     view! {
-        <aside class="sidebar" style=move || format!("--progress: {}%;", progress.get() * 100.0)>
+        <aside
+            class="sidebar"
+            style=move || { format!("--progress: {}%;", progress.get() * 100.0) }
+        >
 
             <div class="sidebar__header">
                 <span class="sidebar__title">"On This Page"</span>

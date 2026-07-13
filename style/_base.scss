@@ -12,9 +12,9 @@ body {
 
   line-height: 1.65;
 
-  transition:
-    background-color 0.3s ease,
-    color 0.3s ease;
+  /* transition: */
+  /* background-color 0.3s ease, */
+  /* color 0.3s ease; */
 }
 
 [id] {
@@ -43,4 +43,9 @@ p {
 
 * {
   transition: all 358ms ease;
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
 }
