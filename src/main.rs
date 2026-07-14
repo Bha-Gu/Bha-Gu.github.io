@@ -1,13 +1,11 @@
 #![allow(non_snake_case)]
 
-mod about;
 mod game_page;
 mod home;
 mod navbar;
 mod page_template;
 mod posts;
 mod secret;
-use about::About;
 use game_page::{GameList, GamePage};
 use home::Home;
 use navbar::NavBar;
@@ -63,7 +61,7 @@ fn main() {
 
 #[component]
 fn App() -> impl IntoView {
-    let routes = vec!["Home", "About", "Posts", "Games", "Secret"];
+    let routes = vec!["Home", "Posts", "Games", "Secret"];
 
     view! {
         <Router>
@@ -72,7 +70,6 @@ fn App() -> impl IntoView {
                 // / just has an un-nested "Home"
 
                 <Route path=path!("/") view=Home />
-                <Route path=path!("/About") view=About />
                 <ParentRoute path=path!("/Games") view=GameList>
                     <Route path=path!("") view=|| view! { <div>"Select a game"</div> } />
                     <Route
