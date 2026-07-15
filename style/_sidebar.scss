@@ -1,0 +1,142 @@
+.sidebar {
+  position: sticky;
+  top: calc(var(--navbar-height) + 1.5rem);
+  padding: 1rem 1.25rem;
+
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 7px;
+
+  /* min-width: fit-content; */
+  width: 200px;
+  width: 15%;
+  flex-shrink: 0;
+
+  align-self: flex-start;
+
+  max-height: calc(100vh - 120px);
+  height: fit-content;
+  overflow-y: auto;
+
+  list-style: none;
+
+  @media screen and (max-width: 1200px) {
+    margin: 0 0;
+    width: 7px;
+    padding: 0 0;
+    right: 0%;
+    height: calc(100vh - calc(var(--navbar-height) + 1.5rem));
+  }
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+
+    width: 3px;
+    height: var(--progress, 0%);
+
+    background: var(--primary);
+    border-radius: 3px;
+
+    transition: height 100ms linear;
+
+    @media screen and (max-width: 1200px) {
+      width: 7px;
+      border-radius: 7px;
+    }
+  }
+
+  &__header {
+    margin-bottom: 1rem;
+    @media screen and (max-width: 1200px) {
+      display: none;
+    }
+  }
+
+  hr {
+    @media screen and (max-width: 1200px) {
+      display: none;
+    }
+  }
+
+  &__title {
+    margin: 0;
+
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    color: var(--text-muted);
+
+    @media screen and (max-width: 1200px) {
+      display: none;
+    }
+  }
+
+  &__section {
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.15rem;
+    line-height: 1.35;
+
+    @media screen and (max-width: 1200px) {
+      display: none;
+    }
+  }
+
+  &__link {
+    position: relative;
+
+    display: block;
+
+    padding: 0.45rem 0.75rem;
+
+    text-decoration: none;
+
+    border-radius: 6px;
+
+    @media screen and (max-width: 1200px) {
+      display: none;
+    }
+    a {
+      color: var(--text-muted);
+      text-decoration: none;
+    }
+
+    &:hover {
+      background: var(--bg);
+      a {
+        color: var(--text);
+      }
+    }
+
+    &.active {
+      a {
+        color: var(--primary-hover);
+        font-weight: 600;
+      }
+    }
+
+    &.active::before {
+      content: "";
+
+      position: absolute;
+      left: -1rem;
+      top: 50%;
+
+      width: 3px;
+      height: 100%;
+
+      transform: translateY(-50%);
+
+      background: var(--primary);
+      border-radius: 999px;
+    }
+  }
+}

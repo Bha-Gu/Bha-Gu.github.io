@@ -1,0 +1,33 @@
+.breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5vw;
+
+  margin: 0 0;
+
+  font-size: calc(var(--navbar-height) * 0.15);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  a {
+    color: var(--link);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--primary);
+    }
+
+    &:last-child {
+      color: var(--text);
+      font-weight: 600;
+      pointer-events: none;
+      letter-spacing: 0.16em;
+      border-radius: 0.25em;
+      padding: 0.25em 0.75em;
+      background: var(--surface-elevated);
+      cursor: default;
+      text-decoration: none;
+    }
+  }
+}

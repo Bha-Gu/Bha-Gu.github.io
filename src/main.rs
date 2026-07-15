@@ -67,8 +67,6 @@ fn App() -> impl IntoView {
         <Router>
             <NavBar navbar_list=routes />
             <Routes fallback=|| "Not found.">
-                // / just has an un-nested "Home"
-
                 <Route path=path!("/") view=Home />
                 <ParentRoute path=path!("/Games") view=GameList>
                     <Route path=path!("") view=|| view! { <div>"Select a game"</div> } />

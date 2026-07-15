@@ -1,20 +1,23 @@
+html,
+body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: clip;
+}
+
 html {
   scroll-behavior: smooth;
 }
 
 body {
-  margin: 0;
-
   background: var(--bg);
   color: var(--text);
 
   font-family: Inter, system-ui, sans-serif;
 
-  line-height: 1.65;
-
-  /* transition: */
-  /* background-color 0.3s ease, */
-  /* color 0.3s ease; */
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
 }
 
 [id] {
@@ -33,12 +36,51 @@ h5,
 h6 {
   margin-top: 2rem;
   margin-bottom: 1rem;
+  letter-spacing: var(--ls-heading);
+  line-height: var(--lh-heading);
+  /* line-height: 1.2; */
+}
 
-  line-height: 1.2;
+h1 {
+  font-size: var(--fs-h1);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+}
+
+h4 {
+  font-size: var(--fs-h4);
+}
+
+h5 {
+  font-size: var(--fs-h5);
+}
+
+h6 {
+  font-size: var(--fs-h6);
+}
+
+.large-text {
+  font-size: var(--fs-body-xl);
 }
 
 p {
+  font-size: var(--fs-body-lg);
   margin: 1rem 0;
+}
+
+button,
+input,
+textarea,
+select,
+span {
+  font-size: var(--fs-button);
+  letter-spacing: var(--ls-button);
 }
 
 * {
