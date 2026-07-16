@@ -71,7 +71,7 @@ pub fn NavBar(navbar_list: Vec<&'static str>) -> impl IntoView {
         <nav class="navbar">
             <div class="navbar__container">
                 <ul class="navbar__menu_base">
-                    <p class="navbar__logo">"Under Construction"</p>
+                    <p class="navbar__logo">"Bha-Gu"</p>
                     <Breadcrumbs />
                 </ul>
 
