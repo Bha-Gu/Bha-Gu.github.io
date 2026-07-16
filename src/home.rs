@@ -83,7 +83,7 @@ pub fn Skills() -> impl IntoView {
         .map(|x| {
             view! {
                 <div class="skill-category">
-                    <h4>{x.0}</h4>
+                    <h3>{x.0}</h3>
                     <div>
                         {x.1.into_iter().map(|x| view! { <span>{x}</span> }).collect::<Vec<_>>()}
                     </div>
@@ -95,7 +95,7 @@ pub fn Skills() -> impl IntoView {
         .collect::<Vec<_>>();
 
     view! {
-        <section class="skills" id="skills">
+        <section class="skill" id="skill">
 
             <h2>"Skills"</h2>
 
