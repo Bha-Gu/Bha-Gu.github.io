@@ -4,16 +4,16 @@
 <head>
   <!-- Add a plain CSS file: see https://trunk-rs.github.io/trunk/guide/assets/#css -->
   <!-- If using Tailwind with Leptos CSR, see https://trunk-rs.github.io/trunk/guide/assets/#tailwind instead-->
-  <link rel="stylesheet" href="/styles-cebf512866dcf179.css" integrity="sha384-31CtUww3MDFRiy+5LQrD011VW1ry4nld2zsVaEDN1DrH8zmoTPOqLXUqSa8JyHJ1"/>
+  <link rel="stylesheet" href="/styles-789f4fbd55a02906.css" integrity="sha384-i/TxxTvwx8DGTJ2hntxzMH6HS7yfTtd+5Y0bUycCkS0L3yC880enuFwo+MjTtn4e"/>
 
   <!-- Include favicon in dist output: see https://trunk-rs.github.io/trunk/guide/assets/#icon -->
   <link rel="icon" href="/favicon-f070e8a970a5f145.ico" integrity="sha384-O7QU2KUExwCUQD2lBD6XQv2/eWMW+h+mdOPGfvLmFdlu5BwqYF2yTEhRYjw7G25Z"/>
   <!-- include support for `wasm-bindgen --weak-refs` - see: https://rustwasm.github.io/docs/wasm-bindgen/reference/weak-references.html -->
-  <!-- <link data-trunk rel="copy-dir" href="./assets" /> -->
+  
   
 <script type="module">
-import init, * as bindings from '/my-page-35e2f5b0a685d36f.js';
-const wasm = await init({ module_or_path: '/my-page-35e2f5b0a685d36f_bg.wasm' });
+import init, * as bindings from '/my-page-b169ec2e72c5787a.js';
+const wasm = await init({ module_or_path: '/my-page-b169ec2e72c5787a_bg.wasm' });
 
 
 window.wasmBindings = bindings;
@@ -22,7 +22,7 @@ window.wasmBindings = bindings;
 dispatchEvent(new CustomEvent("TrunkApplicationStarted", {detail: {wasm}}));
 
 </script>
-<link rel="modulepreload" href="/my-page-35e2f5b0a685d36f.js" crossorigin="anonymous" integrity="sha384-pL/a410dUOkHJXAXPcs9CTG7AE+wt43L8QNBTNXVRbOBIHKDq1hwdNpXsqIcopNu"><link rel="preload" href="/my-page-35e2f5b0a685d36f_bg.wasm" crossorigin="anonymous" integrity="sha384-hRNIUfjqajqGtgDCkqJlhS9kOX73ZAoOTlMPunCjvraSJJt1UUD2ycZ/JgQcrNn5" as="fetch" type="application/wasm"></head>
+<link rel="modulepreload" href="/my-page-b169ec2e72c5787a.js" crossorigin="anonymous" integrity="sha384-D1KgcOrOe3kN5KFJ8EoEquSSQrymCgNW3LEgfqK994aYMLuJZQjffVEIVwUB4Opc"><link rel="preload" href="/my-page-b169ec2e72c5787a_bg.wasm" crossorigin="anonymous" integrity="sha384-kfC0pEuI7ENTXGyNCP7qZQOt7JSjyAahA6A00zxZbVYO2PfJ37BHawel5qM8fQCY" as="fetch" type="application/wasm"></head>
 
 <body></body>
 

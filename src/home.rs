@@ -12,10 +12,10 @@ fn Hero() -> impl IntoView {
 
                 <h2 class="hero-subtitle">"Rust Software Developer"</h2>
 
-                <p class="hero-description">
-                    "I build reliable backend services, systems software, and modern web applications using Rust.
-                    I'm passionate about performance, type safety, and writing software that lasts."
-                </p>
+                // <p class="hero-description">
+                // "I build reliable backend services, systems software, and modern web applications using Rust.
+                // I'm passionate about performance, type safety, and writing software that lasts."
+                // </p>
 
                 <div class="cta-buttons">
                     <a href="#projects" class="btn btn-primary">
@@ -40,17 +40,17 @@ fn About() -> impl IntoView {
 
             <h2>"About Me"</h2>
 
-            <p>
-                "I'm a software developer with a strong interest in systems programming,
-                backend engineering, and modern web development using Rust."
-            </p>
+            <h6>"Work in Progress"</h6>
+        // <p>
+        // "I'm a software developer with a strong interest in systems programming,
+        // backend engineering, and modern web development using Rust."
+        // </p>
 
-            <p>
-                "I enjoy solving challenging problems, learning how software works under
-                the hood, and building applications that are fast, reliable, and easy
-                to maintain."
-            </p>
-
+        // <p>
+        // "I enjoy solving challenging problems, learning how software works under
+        // the hood, and building applications that are fast, reliable, and easy
+        // to maintain."
+        // </p>
         </section>
     }
 }
@@ -59,18 +59,14 @@ fn About() -> impl IntoView {
 pub fn Skills() -> impl IntoView {
     let skills = vec![
         ("Languages", vec!["Rust", "Python"]),
-        ("Frontend", vec!["Leptos", "HTML5", "CSS3"]),
+        ("Frontend", vec!["Leptos"]),
         (
             "Libraries & Frameworks",
             vec!["Polars", "PyO3", "Pandas", "Numpy"],
         ),
         (
             "Machine Learning",
-            vec![
-                "Machine Learning",
-                "Data Analysis",
-                "Logical Analysis of Data (LAD)",
-            ],
+            vec!["Data Analysis", "Logical Analysis of Data (LAD)"],
         ),
         (
             "Cybersecurity",
@@ -95,7 +91,7 @@ pub fn Skills() -> impl IntoView {
         .collect::<Vec<_>>();
 
     view! {
-        <section class="skill" id="skill">
+        <section class="skills" id="skills">
 
             <h2>"Skills"</h2>
 
@@ -116,41 +112,75 @@ pub fn Projects() -> impl IntoView {
 
             <h2>"Featured Projects"</h2>
 
-            <div class="project-grid">
+            // <article class="project-card">
+            <div class="project-grid">// <h3>"IDS-LAD: Intrusion detection system using logical analysis of data"</h3>
 
-                <article class="project-card">
+            // <p>
+            // "Intrusion Detection Systems are essential for networks to ensure the confidentiality, integrity, and availability of data. In today’s increasingly interconnected world, IDS remain a critical component of cybersecurity strategies. Traditional IDS, and even recent Deep Learning based approaches, often suffer from high false positive rates, computational inefficiencies, and limited adaptability. To address these challenges, We proposed a LAD-based IDS model in which we introduced a binarization technique that efficiently extracts critical patterns from heterogeneous and imbalanced network traffic data. The proposed model is evaluated using well-known datasets, such as NSL-KDD and KDD-Cup99, to ensure a rigorous assessment against diverse attack scenarios. Experimental evaluation reveals that the IDS-LAD-based method achieved an accuracy of 80.026% and 99.872%, precision of 80.921% and 99.870%, recall of 81.260% and 99.782%, and an F2-Score of 80.498% and 99.865% on the NSL-KDD and KDD-Cup99 datasets, respectively."
+            // </p>
 
-                    <h3>"LAD-Based Intrusion Detection System"</h3>
+            // <div class="project-tech-stack">
+            // <span>"IDS"</span>
+            // <span>"LAD"</span>
+            // <span>"Binarization"</span>
+            // <span>"Anomaly Detection"</span>
+            // <span>"Network traffic analysis"</span>
+            // </div>
+            // <br />
+            // <div class="project-links">
+            // <a
+            // href="https://link.springer.com/article/10.1007/s10586-025-05724-z"
+            // target="_blank"
+            // rel="noopener noreferrer"
+            // >
+            // "Springer"
+            // </a>
+            // </div>
+
+            // </article>
+            </div>
+
+        </section>
+    }
+}
+#[component]
+pub fn Papers() -> impl IntoView {
+    view! {
+        <section class="papers" id="papers">
+
+            <h2>"Published Papers"</h2>
+
+            <div class="paper-grid">
+
+                <article class="paper-card">
+
+                    <h3>"IDS-LAD: Intrusion detection system using logical analysis of data"</h3>
 
                     <p>
-                        "Developed an intrusion detection system using Logical Analysis
-                        of Data (LAD) to improve the classification of malicious network
-                        traffic. The project introduces an efficient binarization
-                        technique for heterogeneous and imbalanced datasets and evaluates
-                        the model on the NSL-KDD and KDD-Cup99 benchmarks. The core
-                        algorithm was implemented in Rust with Polars and exposed to
-                        Python using PyO3 for experimentation and evaluation."
+                        "Intrusion Detection Systems are essential for networks to ensure the confidentiality, integrity, and availability of data. In today’s increasingly interconnected world, IDS remain a critical component of cybersecurity strategies. Traditional IDS, and even recent Deep Learning based approaches, often suffer from high false positive rates, computational inefficiencies, and limited adaptability. To address these challenges, We proposed a LAD-based IDS model in which we introduced a binarization technique that efficiently extracts critical patterns from heterogeneous and imbalanced network traffic data. The proposed model is evaluated using well-known datasets, such as NSL-KDD and KDD-Cup99, to ensure a rigorous assessment against diverse attack scenarios. Experimental evaluation reveals that the IDS-LAD-based method achieved an accuracy of 80.026% and 99.872%, precision of 80.921% and 99.870%, recall of 81.260% and 99.782%, and an F2-Score of 80.498% and 99.865% on the NSL-KDD and KDD-Cup99 datasets, respectively."
                     </p>
 
-                    <div class="project-tech-stack">
-                        <span>"Rust"</span>
-                        <span>"Polars"</span>
-                        <span>"PyO3"</span>
-                        <span>"Python"</span>
-                        <span>"Pandas"</span>
-                        <span>"Numpy"</span>
-                        <span>"Machine Learning"</span>
-                        <span>"Network Security"</span>
+                    <div class="paper-tags">
+                        <span>"IDS"</span>
                         <span>"LAD"</span>
+                        <span>"Binarization"</span>
+                        <span>"Anomaly Detection"</span>
+                        <span>"Network traffic analysis"</span>
                     </div>
                     <br />
-                    <div class="project-links">
+                    <div class="paper-links">
                         <a
                             href="https://link.springer.com/article/10.1007/s10586-025-05724-z"
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            "Published Paper"
+                            // <img src="path/to/image.svg" alt="Description of the image" width="100" height="100"/>
+                            <img class="light" src="assets/vectors/springer.svg" alt="Springer" />
+                            <img
+                                class="dark"
+                                src="assets/vectors/springer-dark.svg"
+                                alt="Springer"
+                            />
                         </a>
                     </div>
 
@@ -244,13 +274,14 @@ pub fn Home() -> impl IntoView {
         <SideBarPage ids=vec![
             "About".to_string(),
             "Skills".to_string(),
-            "Projects".to_string(),
+            "Papers".to_string(),
             "Education".to_string(),
         ]>
             <div class="portfolio">
                 <About />
                 <Skills />
-                <Projects />
+                // <Projects />
+                <Papers />
                 <Education />
             </div>
         </SideBarPage>
