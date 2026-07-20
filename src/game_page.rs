@@ -1,6 +1,6 @@
 use crate::page_template::StaticPage;
 use leptos::prelude::*;
-use leptos_router::components::{A, Outlet};
+use leptos_router::components::{Outlet, A};
 
 #[component]
 pub fn GamePage(
@@ -16,13 +16,13 @@ pub fn GamePage(
 #[component]
 pub fn GameList() -> impl IntoView {
     view! {
-
         <StaticPage>
             <div class="game-list">
                 <h2>"Games"</h2>
 
                 <div class="games-list">
                     <A href="Pong">"Pong"</A>
+                    <A href="GameOfLife">"Game of Life"</A>
                     <A href="" exact=true>
                         "Unload Game"
                     </A>

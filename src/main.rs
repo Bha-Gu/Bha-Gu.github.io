@@ -74,6 +74,18 @@ fn App() -> impl IntoView {
                         path=path!("Pong")
                         view=|| view! { <GamePage game_id="pong_bevy".to_string() /> }
                     />
+                    <Route
+                        path=path!("GameOfLife")
+                        view=|| {
+                            view! {
+                                <GamePage
+                                    game_id="wasm-game-of-life".to_string()
+                                    width="950".to_string()
+                                    height="950".to_string()
+                                />
+                            }
+                        }
+                    />
                 </ParentRoute>
                 <ParentRoute path=path!("/Posts") view=PostRoot>
                     <Route path=path!("") view=PostList />
