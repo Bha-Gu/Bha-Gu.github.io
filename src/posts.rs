@@ -1,18 +1,25 @@
 use crate::page_template::{SideBarPage, StaticPage};
+use alloc::collections::BTreeMap;
+use alloc::format;
+use alloc::string::{String, ToString};
+use alloc::vec;
+use alloc::vec::Vec;
 use chrono::{DateTime, FixedOffset};
-use gray_matter::{engine::YAML, Matter};
+// use gloo_net::http::Request;
+use gray_matter::{Matter, engine::YAML};
 use leptos::prelude::*;
-use leptos_router::components::{Outlet, A};
+use leptos_router::components::{A, Outlet};
 use leptos_router::hooks::use_params_map;
-use pulldown_cmark::{html, CowStr, Event, HeadingLevel, Options, Parser, Tag, TagEnd};
-use rust_embed::RustEmbed;
+use pulldown_cmark::{CowStr, Event, HeadingLevel, Options, Parser, Tag, TagEnd, html};
+// use rust_embed::RustEmbed;
 use serde::Deserialize;
 use slug::slugify;
+use web_sys::console::log_1;
 
-#[derive(RustEmbed)]
-#[folder = "assets/posts/"]
-#[include = "*.md"]
-struct Posts;
+use js_sys::Uint8Array;
+use wasm_bindgen::JsCast;
+use wasm_bindgen_futures::JsFuture;
+use web_sys::Response;
 
 #[derive(Debug, Deserialize, Clone)]
 struct FrontMatter {
@@ -32,7 +39,7 @@ fn extract_front_matter(md: &str) -> Option<FrontMatter> {
     result.data
 }
 
-fn level_tag(level: HeadingLevel) -> &'static str {
+const fn level_tag(level: HeadingLevel) -> &'static str {
     match level {
         HeadingLevel::H1 => "h1",
         HeadingLevel::H2 => "h2",
@@ -70,7 +77,7 @@ fn markdown_to_html(md: &str) -> Option<(String, Vec<String>)> {
                 let mut heading_events = Vec::new();
                 let mut heading_text = String::new();
 
-                while let Some(e) = iter.next() {
+                for e in iter.by_ref() {
                     match e {
                         Event::End(TagEnd::Heading(..)) => break,
 
@@ -100,77 +107,122 @@ fn markdown_to_html(md: &str) -> Option<(String, Vec<String>)> {
 
     Some((html_output, id_strings))
 }
-
 #[component]
 pub fn PostList() -> impl IntoView {
-    use std::collections::BTreeMap;
+    let posts = LocalResource::new(|| async move {
+        let files = ["Copy"];
+        let mut posts = Vec::new();
 
-    let posts: Vec<(String, FrontMatter)> = Posts::iter()
-        .filter_map(|path| {
-            let md = Posts::get(&path)?;
+        for &path in &files {
+            let Some(window) = web_sys::window() else {
+                log_1(&"can't get window".into());
+                continue;
+            };
 
-            let markdown = String::from_utf8(md.data.into_owned()).ok()?;
-            let front = extract_front_matter(&markdown)?;
+            let Ok(resp) =
+                JsFuture::from(window.fetch_with_str(&format!("/assets/posts/{path}.md"))).await
+            else {
+                log_1(&"fetch failed".into());
+                continue;
+            };
 
-            let slug = path.trim_end_matches(".md").to_string();
+            let Ok(resp) = resp.dyn_into::<Response>() else {
+                log_1(&"response cast failed".into());
+                continue;
+            };
 
-            Some((slug, front))
-        })
-        .collect();
+            if !resp.ok() {
+                log_1(&format!("HTTP {}", resp.status()).into());
+                continue;
+            }
 
-    let mut grouped: BTreeMap<String, Vec<(String, FrontMatter)>> = BTreeMap::new();
+            let Ok(buffer) = JsFuture::from(resp.array_buffer().unwrap()).await else {
+                log_1(&"array_buffer failed".into());
+                continue;
+            };
 
-    for (slug, front) in posts {
-        let month = front.date.format("%B %Y").to_string();
-        grouped.entry(month).or_default().push((slug, front));
-    }
+            let md = Uint8Array::new(&buffer).to_vec();
 
-    // newest month first
-    let grouped: Vec<_> = grouped.into_iter().rev().collect();
+            let Ok(markdown) = String::from_utf8(md) else {
+                log_1(&"utf8 conversion failed".into());
+                continue;
+            };
+
+            log_1(&markdown.clone().into());
+
+            let Some(front) = extract_front_matter(&markdown) else {
+                log_1(&"can't parse front matter".into());
+                continue;
+            };
+
+            posts.push((path.to_string(), front));
+        }
+
+        let mut grouped: BTreeMap<String, Vec<(String, FrontMatter)>> = BTreeMap::new();
+
+        for (slug, front) in posts {
+            let month = front.date.format("%B %Y").to_string();
+            grouped.entry(month).or_default().push((slug, front));
+        }
+
+        grouped.into_iter().rev().collect::<Vec<_>>()
+    });
 
     view! {
-        <div class="post-list">
-            <h2>"Posts"</h2>
-
-            <div class="posts-list">
-                <For
-                    each=move || grouped.clone()
-                    key=|(month, _)| month.clone()
-                    children=move |(month, posts)| {
+        <Suspense fallback=|| {
+            view! { <p>"Loading posts..."</p> }
+        }>
+            {move || {
+                posts
+                    .get()
+                    .map(|grouped| {
                         view! {
-                            <>
-                                <h3 class="group-heading">{month}</h3>
-                                <For
-                                    each=move || posts.clone()
-                                    key=|(slug, _)| slug.clone()
-                                    children=move |(slug, front)| {
-                                        view! {
-                                            <A href=slug>
-                                                <h4>{front.title}</h4>
-                                                <p>{front.excerpt}</p>
-                                                <div class="post-tags">
+                            <div class="post-list">
+                                <h2>"Posts"</h2>
+
+                                <div class="posts-list">
+                                    <For
+                                        each=move || grouped.clone()
+                                        key=|(month, _)| month.clone()
+                                        children=move |(month, posts)| {
+                                            view! {
+                                                <>
+                                                    <h3 class="group-heading">{month}</h3>
                                                     <For
-                                                        each=move || front.tags.clone().unwrap_or(vec![])
-                                                        key=|tag| tag.clone()
-                                                        children=move |tag| {
-                                                            view! { <span class="post-tag">{tag.clone()}</span> }
+                                                        each=move || posts.clone()
+                                                        key=|(slug, _)| slug.clone()
+                                                        children=move |(slug, front)| {
+                                                            view! {
+                                                                <A href=slug>
+                                                                    <h4>{front.title}</h4>
+                                                                    <p>{front.excerpt}</p>
+                                                                    <div class="post-tags">
+                                                                        <For
+                                                                            each=move || front.tags.clone().unwrap_or(vec![])
+                                                                            key=|tag| tag.clone()
+                                                                            children=move |tag| {
+                                                                                view! { <span class="post-tag">{tag}</span> }
+                                                                            }
+                                                                        />
+                                                                    </div>
+                                                                    <small>
+                                                                        {front.date.format("%b %-d, %Y").to_string()} " • "
+                                                                        {front.read_time} " min"
+                                                                    </small>
+                                                                </A>
+                                                            }
                                                         }
                                                     />
-                                                </div>
-                                                <small>
-                                                    {front.date.format("%b %-d, %Y").to_string()} " • "
-                                                    {front.read_time} " min"
-                                                </small>
-                                            </A>
+                                                </>
+                                            }
                                         }
-                                    }
-                                />
-                            </>
+                                    />
+                                </div>
+                            </div>
                         }
-                    }
-                />
-            </div>
-        </div>
+                    })
+            }}
+        </Suspense>
     }
 }
 
@@ -183,62 +235,79 @@ pub fn PostRoot() -> impl IntoView {
 pub fn PostPage() -> impl IntoView {
     let params = use_params_map();
 
-    let slug = move || params.read().get("slug").unwrap_or_default();
+    let markdown = LocalResource::new(move || {
+        let slug = params.read().get("slug").unwrap_or_default();
 
-    let markdown = move || {
-        let filename = format!("{}.md", slug());
+        async move {
+            let window = web_sys::window()?;
 
-        Posts::get(&filename).map(|x| String::from_utf8(x.data.into_owned()).unwrap())
-    };
+            let path = format!("/assets/posts/{slug}.md");
 
+            let response = JsFuture::from(window.fetch_with_str(&path))
+                .await
+                .ok()?
+                .dyn_into::<Response>()
+                .ok()?;
+
+            if !response.ok() {
+                return None;
+            }
+
+            let buffer = JsFuture::from(response.array_buffer().ok()?).await.ok()?;
+
+            let bytes = Uint8Array::new(&buffer).to_vec();
+
+            String::from_utf8(bytes).ok()
+        }
+    });
     view! {
-        {move || {
-            markdown()
-                .map(|md| {
-                    let front = extract_front_matter(&md).unwrap();
-                    let (html, ids) = markdown_to_html(&md).unwrap();
-                    let html_copy = html.clone();
+        <Suspense fallback=|| {
+            view! { <p>"Loading..."</p> }
+        }>
+            {move || {
+                markdown
+                    .get()
+                    .map(|md| {
+                        md.map(|md| {
+                            let front = extract_front_matter(&md).unwrap();
+                            let (html, ids) = markdown_to_html(&md).unwrap();
 
-                    view! {
-                        <StaticPage>
-                            <article class="post">
-                                <header class="post-header">
-                                    <h1>{front.title}</h1>
+                            view! {
+                                <StaticPage>
+                                    <article class="post">
+                                        <header class="post-header">
+                                            <h1>{front.title}</h1>
 
-                                    <div class="post-meta">
-                                        <span>{front.date.format("%B %-d, %Y").to_string()}</span>
-                                        <span>"•"</span>
-                                        <span>{front.read_time}" min read"</span>
-                                    </div>
+                                            <div class="post-meta">
+                                                <span>{front.date.format("%B %-d, %Y").to_string()}</span>
+                                                <span>"•"</span>
+                                                <span>{front.read_time}" min read"</span>
+                                            </div>
 
-                                    <div class="post-tags">
-                                        {front
-                                            .tags
-                                            .clone()
-                                            .unwrap_or(vec![])
-                                            .iter()
-                                            .map(|tag| {
-                                                view! { <span class="post-tag">{tag.clone()}</span> }
-                                            })
-                                            .collect_view()}
-                                    </div>
+                                            <div class="post-tags">
+                                                {front
+                                                    .tags
+                                                    .clone()
+                                                    .unwrap_or_default()
+                                                    .into_iter()
+                                                    .map(|tag| view! { <span class="post-tag">{tag}</span> })
+                                                    .collect_view()}
+                                            </div>
 
-                                    <div class="post-excerpt">
-                                        <span>{front.excerpt}</span>
-                                    </div>
-                                </header>
-                                <SideBarPage ids=ids.clone()>
-                                    <div class="post-content" inner_html=html />
-                                </SideBarPage>
+                                            <div class="post-excerpt">
+                                                <span>{front.excerpt}</span>
+                                            </div>
+                                        </header>
 
-                                <SideBarPage ids=ids>
-                                    <div class="post-content" inner_html=html_copy />
-                                </SideBarPage>
-                            </article>
-                        </StaticPage>
-                    }
-                })
-                .unwrap()
-        }}
+                                        <SideBarPage ids=ids>
+                                            <div class="post-content" inner_html=html />
+                                        </SideBarPage>
+                                    </article>
+                                </StaticPage>
+                            }
+                        })
+                    })
+            }}
+        </Suspense>
     }
 }

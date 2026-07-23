@@ -1,12 +1,16 @@
+extern crate alloc;
+use alloc::format;
+
 use crate::page_template::StaticPage;
+
 use leptos::prelude::*;
-use leptos_router::components::{Outlet, A};
+use leptos_router::components::{A, Outlet};
 
 #[component]
 pub fn GamePage(
-    game_id: String,
-    #[prop(default = "800".to_string())] width: String,
-    #[prop(default = "600".to_string())] height: String,
+    game_id: &'static str,
+    #[prop(default = "800")] width: &'static str,
+    #[prop(default = "600")] height: &'static str,
 ) -> impl IntoView {
     let address = format!("https://bha-gu.github.io/{game_id}/");
 

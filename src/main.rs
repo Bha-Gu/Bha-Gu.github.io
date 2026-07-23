@@ -1,4 +1,8 @@
 #![allow(non_snake_case)]
+#![no_std]
+
+extern crate alloc;
+use alloc::string::{String, ToString};
 
 mod game_page;
 mod home;
@@ -14,10 +18,11 @@ use secret::SecretPageLogin;
 
 use leptos::mount::mount_to_body;
 use leptos::prelude::*;
-use leptos_router::components::{Outlet, ParentRoute, Route, Router, Routes};
+use leptos_router::components::{ParentRoute, Route, Router, Routes};
 use leptos_router::hooks::use_location;
 use leptos_router::path;
 
+#[allow(clippy::must_use_candidate)]
 #[component]
 pub fn Breadcrumbs() -> impl IntoView {
     let location = use_location();
@@ -33,23 +38,19 @@ pub fn Breadcrumbs() -> impl IntoView {
 
                 Some((acc.clone(), segment.to_string()))
             })
-            .collect::<Vec<_>>()
+            .map(|(href, label)| {
+                view! {
+                    <span>"/"</span>
+                    <a href=href>{label}</a>
+                }
+            })
+            .collect_view()
     };
 
     view! {
         <p class="breadcrumb">
             <a href="/">"Home"</a>
-
-            <For
-                each=move || breadcrumbs()
-                key=|(href, _)| href.clone()
-                children=move |(href, label)| {
-                    view! {
-                        <span>"/"</span>
-                        <a href=href>{label}</a>
-                    }
-                }
-            />
+            {breadcrumbs}
         </p>
     }
 }
@@ -61,7 +62,7 @@ fn main() {
 
 #[component]
 fn App() -> impl IntoView {
-    let routes = vec!["Home", "Posts", "Games", "Secret"];
+    let routes = &["/Home", "/Posts", "/Games", "/Secret"];
 
     view! {
         <Router>
@@ -70,19 +71,12 @@ fn App() -> impl IntoView {
                 <Route path=path!("/") view=Home />
                 <ParentRoute path=path!("/Games") view=GameList>
                     <Route path=path!("") view=|| view! { <div>"Select a game"</div> } />
-                    <Route
-                        path=path!("Pong")
-                        view=|| view! { <GamePage game_id="pong_bevy".to_string() /> }
-                    />
+                    <Route path=path!("Pong") view=|| view! { <GamePage game_id="pong_bevy" /> } />
                     <Route
                         path=path!("GameOfLife")
                         view=|| {
                             view! {
-                                <GamePage
-                                    game_id="wasm-game-of-life".to_string()
-                                    width="950".to_string()
-                                    height="950".to_string()
-                                />
+                                <GamePage game_id="wasm-game-of-life" width="950" height="950" />
                             }
                         }
                     />
@@ -95,9 +89,18 @@ fn App() -> impl IntoView {
 
                 <ParentRoute path=path!("/Secret") view=SecretPageLogin>
 
-                    <Route path=path!("") view=PostList />
+                    <Route path=path!("") view=GameList />
 
-                    <Route path=path!(":slug") view=PostPage />
+                    <Route path=path!("Pong") view=|| view! { <GamePage game_id="pong_bevy" /> } />
+                    <Route
+                        path=path!("GameOfLife")
+                        view=|| {
+                            view! {
+                                <GamePage game_id="wasm-game-of-life" width="950" height="950" />
+                            }
+                        }
+                    />
+                // <Route path=path!(":slug") view=PostPage />
                 </ParentRoute>
             </Routes>
         </Router>

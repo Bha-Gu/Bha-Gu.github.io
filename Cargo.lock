@@ -1227,6 +1227,7 @@ dependencies = [
  "serde",
  "slug",
  "wasm-bindgen",
+ "wasm-bindgen-futures",
  "web-sys",
 ]
 

@@ -1,11 +1,15 @@
+extern crate alloc;
+use alloc::format;
+use alloc::string::String;
+use alloc::vec::Vec;
 use leptos::ev::scroll;
 use leptos::html;
 use leptos::leptos_dom::helpers::window_event_listener;
 use leptos::prelude::*;
 use slug::slugify;
-use wasm_bindgen::{closure::Closure, JsCast};
+use wasm_bindgen::{JsCast, closure::Closure};
 use web_sys::{
-    window, Element, IntersectionObserver, IntersectionObserverEntry, IntersectionObserverInit,
+    Element, IntersectionObserver, IntersectionObserverEntry, IntersectionObserverInit, window,
 };
 
 // sync with css --navbar-height: {}px; keep it in px
@@ -92,7 +96,7 @@ fn SideBar(
                     let entry: IntersectionObserverEntry = entry.into();
 
                     if entry.is_intersecting() {
-                        let element: Element = entry.target().into();
+                        let element: Element = entry.target();
                         active.set(element.id());
                     }
                 }
@@ -102,41 +106,39 @@ fn SideBar(
         let options = IntersectionObserverInit::new();
         options.set_threshold(&0.0.into());
 
-        let observer =
+        if let Ok(observer) =
             IntersectionObserver::new_with_options(callback.as_ref().unchecked_ref(), &options)
-                .unwrap();
+        {
+            let document = window().and_then(|w| w.document());
 
-        let document = window().unwrap().document().unwrap();
+            for id in &ids_clone {
+                let slug = slugify(id);
 
-        for id in &ids_clone {
-            let slug = slugify(id);
-
-            if let Some(element) = document.get_element_by_id(&slug) {
-                observer.observe(&element);
+                if let Some(element) = document.as_ref().and_then(|d| d.get_element_by_id(&slug)) {
+                    observer.observe(&element);
+                }
             }
+            core::mem::forget(observer);
         }
 
         callback.forget();
-        std::mem::forget(observer);
     });
 
     let items = ids
-        .into_iter()
+        .iter()
         .map(|id| {
             let slug = slugify(id.clone());
             view! {
                 <li
-                    class:active={
-                        let slug = slug.clone();
-                        move || active.get() == slug
-                    }
+                    // let slug = slug;
+                    class:active=move || active.get() == slug
                     class="sidebar__link"
                 >
                     <a href=format!("#{slug}")>{id.clone()}</a>
                 </li>
             }
         })
-        .collect::<Vec<_>>();
+        .collect_view();
 
     view! {
         <aside

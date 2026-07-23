@@ -1,5 +1,7 @@
 use leptos::prelude::*;
 use leptos_router::components::Outlet;
+extern crate alloc;
+use alloc::string::String;
 
 const PASSWORD: &str = "letmein"; // Change this to whatever you want
 

@@ -1,4 +1,5 @@
 use crate::page_template::{SideBarPage, StaticPage};
+use alloc::string::ToString;
 use leptos::prelude::*;
 
 #[component]
@@ -57,22 +58,22 @@ fn About() -> impl IntoView {
 
 #[component]
 pub fn Skills() -> impl IntoView {
-    let skills = vec![
-        ("Languages", vec!["Rust", "Python"]),
-        ("Frontend", vec!["Leptos"]),
+    let skills: [(&str, &[&str]); _] = [
+        ("Languages", &["Rust", "Python"]),
+        ("Frontend", &["Leptos"]),
         (
             "Libraries & Frameworks",
-            vec!["Polars", "PyO3", "Pandas", "Numpy"],
+            &["Polars", "PyO3", "Pandas", "Numpy"],
         ),
         (
             "Machine Learning",
-            vec!["Data Analysis", "Logical Analysis of Data (LAD)"],
+            &["Data Analysis", "Logical Analysis of Data (LAD)"],
         ),
         (
             "Cybersecurity",
-            vec!["Intrusion Detection Systems (IDS)", "Network Security"],
+            &["Intrusion Detection Systems (IDS)", "Network Security"],
         ),
-        ("Tools", vec!["Git", "Docker", "Linux"]),
+        ("Tools", &["Git", "Docker", "Linux"]),
     ];
     let skills = skills
         .into_iter()
@@ -80,15 +81,13 @@ pub fn Skills() -> impl IntoView {
             view! {
                 <div class="skill-category">
                     <h3>{x.0}</h3>
-                    <div>
-                        {x.1.into_iter().map(|x| view! { <span>{x}</span> }).collect::<Vec<_>>()}
-                    </div>
+                    <div>{x.1.iter().map(|&x| view! { <span>{x}</span> }).collect_view()}</div>
                 </div>
             }
         })
-        .flat_map(|x| vec![view! {<hr/>}.into_any(), x.into_any()])
+        .flat_map(|x| [view! { <hr /> }.into_any(), x.into_any()])
         .skip(1)
-        .collect::<Vec<_>>();
+        .collect_view();
 
     view! {
         <section class="skills" id="skills">
@@ -113,12 +112,10 @@ pub fn Projects() -> impl IntoView {
             <h2>"Featured Projects"</h2>
 
             // <article class="project-card">
-            <div class="project-grid">// <h3>"IDS-LAD: Intrusion detection system using logical analysis of data"</h3>
-
+            // <h3>"IDS-LAD: Intrusion detection system using logical analysis of data"</h3>
             // <p>
             // "Intrusion Detection Systems are essential for networks to ensure the confidentiality, integrity, and availability of data. In today’s increasingly interconnected world, IDS remain a critical component of cybersecurity strategies. Traditional IDS, and even recent Deep Learning based approaches, often suffer from high false positive rates, computational inefficiencies, and limited adaptability. To address these challenges, We proposed a LAD-based IDS model in which we introduced a binarization technique that efficiently extracts critical patterns from heterogeneous and imbalanced network traffic data. The proposed model is evaluated using well-known datasets, such as NSL-KDD and KDD-Cup99, to ensure a rigorous assessment against diverse attack scenarios. Experimental evaluation reveals that the IDS-LAD-based method achieved an accuracy of 80.026% and 99.872%, precision of 80.921% and 99.870%, recall of 81.260% and 99.782%, and an F2-Score of 80.498% and 99.865% on the NSL-KDD and KDD-Cup99 datasets, respectively."
             // </p>
-
             // <div class="project-tech-stack">
             // <span>"IDS"</span>
             // <span>"LAD"</span>
@@ -126,7 +123,7 @@ pub fn Projects() -> impl IntoView {
             // <span>"Anomaly Detection"</span>
             // <span>"Network traffic analysis"</span>
             // </div>
-            // <br />
+            <div class="project-grid">// <br />
             // <div class="project-links">
             // <a
             // href="https://link.springer.com/article/10.1007/s10586-025-05724-z"
@@ -267,16 +264,17 @@ pub fn Contact() -> impl IntoView {
 
 #[component]
 pub fn Home() -> impl IntoView {
+    let ids = [
+        "About".to_string(),
+        "Skills".to_string(),
+        "Papers".to_string(),
+        "Education".to_string(),
+    ];
     view! {
         <StaticPage>
             <Hero />
         </StaticPage>
-        <SideBarPage ids=vec![
-            "About".to_string(),
-            "Skills".to_string(),
-            "Papers".to_string(),
-            "Education".to_string(),
-        ]>
+        <SideBarPage ids=ids.to_vec()>
             <div class="portfolio">
                 <About />
                 <Skills />

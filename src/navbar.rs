@@ -14,19 +14,16 @@ fn ThemeToggle() -> impl IntoView {
         if let Some(document) = window().and_then(|w| w.document())
             && let Some(html) = document.document_element()
         {
-            match theme {
-                false => {
-                    let _ = html.set_attribute("data-theme", "light");
-                }
-                true => {
-                    let _ = html.set_attribute("data-theme", "dark");
-                }
+            if theme {
+                let _ = html.set_attribute("data-theme", "dark");
+            } else {
+                let _ = html.set_attribute("data-theme", "light");
             }
         }
     });
     view! {
-        <form class="navbar__theme-switch">
-            <label>
+        <div class="navbar__theme-switch">
+            <label aria-label="Toggle Theme">
                 <input
                     class="navbar__theme-switch"
 
@@ -34,12 +31,12 @@ fn ThemeToggle() -> impl IntoView {
                     bind:checked=dark
                 />
             </label>
-        </form>
+        </div>
     }
 }
 
 #[component]
-pub fn NavBar(navbar_list: Vec<&'static str>) -> impl IntoView {
+pub fn NavBar(navbar_list: &'static [&'static str]) -> impl IntoView {
     let target = NodeRef::<Div>::new();
     let (is_open, set_open) = signal(false);
     let _ = on_click_outside_with_options(
@@ -47,25 +44,25 @@ pub fn NavBar(navbar_list: Vec<&'static str>) -> impl IntoView {
         move |_| set_open.set(false),
         OnClickOutsideOptions::default().ignore([".navbar__icon"]),
     );
-    
+
     let navbar_items = navbar_list
-        .into_iter()
-        .map(|item| {
+        .iter()
+        .map(|&item| {
             view! {
                 <li class="navbar__item">
                     <A
                         href=match item {
-                            "Home" => String::from("/"),
-                            item => format!("/{item}"),
+                            "/Home" => "/",
+                            item => item,
                         }
                         attr:class="navbar__link"
                     >
-                        {item}
+                        {&item[1..]}
                     </A>
                 </li>
             }
         })
-        .collect::<Vec<_>>();
+        .collect_view();
 
     view! {
         <nav class="navbar">
@@ -98,5 +95,3 @@ pub fn NavBar(navbar_list: Vec<&'static str>) -> impl IntoView {
         </nav>
     }
 }
-
-
