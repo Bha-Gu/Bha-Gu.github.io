@@ -120,7 +120,7 @@ pub fn PostList() -> impl IntoView {
             };
 
             let Ok(resp) =
-                JsFuture::from(window.fetch_with_str(&format!("./assets/posts/{path}.md"))).await
+                JsFuture::from(window.fetch_with_str(&format!("/assets/posts/_{path}.md"))).await
             else {
                 log_1(&"fetch failed".into());
                 continue;
@@ -241,7 +241,7 @@ pub fn PostPage() -> impl IntoView {
         async move {
             let window = web_sys::window()?;
 
-            let path = format!("./assets/posts/{slug}.md");
+            let path = format!("/assets/posts/_{slug}.md");
 
             let response = JsFuture::from(window.fetch_with_str(&path))
                 .await
