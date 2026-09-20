@@ -41,17 +41,17 @@ fn About() -> impl IntoView {
 
             <h2>"About Me"</h2>
 
-            <h6>"Work in Progress"</h6>
-        // <p>
-        // "I'm a software developer with a strong interest in systems programming,
-        // backend engineering, and modern web development using Rust."
-        // </p>
+            // <h6>"Work in Progress"</h6>
+            <p>
+                "I'm a software developer with a strong interest in systems programming,
+                backend engineering, and modern web development using Rust."
+            </p>
 
-        // <p>
-        // "I enjoy solving challenging problems, learning how software works under
-        // the hood, and building applications that are fast, reliable, and easy
-        // to maintain."
-        // </p>
+            <p>
+                "I enjoy solving challenging problems, learning how software works under
+                the hood, and building applications that are fast, reliable, and easy
+                to maintain."
+            </p>
         </section>
     }
 }
@@ -59,7 +59,7 @@ fn About() -> impl IntoView {
 #[component]
 pub fn Skills() -> impl IntoView {
     let skills: [(&str, &[&str]); _] = [
-        ("Languages", &["Rust", "Python"]),
+        ("Languages", &["Rust", "Python", "HTML", "CSS"]),
         ("Frontend", &["Leptos"]),
         (
             "Libraries & Frameworks",
@@ -111,32 +111,47 @@ pub fn Projects() -> impl IntoView {
 
             <h2>"Featured Projects"</h2>
 
-            // <article class="project-card">
-            // <h3>"IDS-LAD: Intrusion detection system using logical analysis of data"</h3>
-            // <p>
-            // "Intrusion Detection Systems are essential for networks to ensure the confidentiality, integrity, and availability of data. In today’s increasingly interconnected world, IDS remain a critical component of cybersecurity strategies. Traditional IDS, and even recent Deep Learning based approaches, often suffer from high false positive rates, computational inefficiencies, and limited adaptability. To address these challenges, We proposed a LAD-based IDS model in which we introduced a binarization technique that efficiently extracts critical patterns from heterogeneous and imbalanced network traffic data. The proposed model is evaluated using well-known datasets, such as NSL-KDD and KDD-Cup99, to ensure a rigorous assessment against diverse attack scenarios. Experimental evaluation reveals that the IDS-LAD-based method achieved an accuracy of 80.026% and 99.872%, precision of 80.921% and 99.870%, recall of 81.260% and 99.782%, and an F2-Score of 80.498% and 99.865% on the NSL-KDD and KDD-Cup99 datasets, respectively."
-            // </p>
-            // <div class="project-tech-stack">
-            // <span>"IDS"</span>
-            // <span>"LAD"</span>
-            // <span>"Binarization"</span>
-            // <span>"Anomaly Detection"</span>
-            // <span>"Network traffic analysis"</span>
-            // </div>
-            <div class="project-grid">// <br />
-            // <div class="project-links">
-            // <a
-            // href="https://link.springer.com/article/10.1007/s10586-025-05724-z"
-            // target="_blank"
-            // rel="noopener noreferrer"
-            // >
-            // "Springer"
-            // </a>
-            // </div>
+            <article class="project-card">
+                <h3>"LAD-rs"</h3>
+                <p>
+                    "Implementation of a modified version on Logical Analysis of Data Algorithm to be able to run on multiclass dataset."
+                </p>
+                <div class="project-tech-stack">
+                    <span>"LAD"</span>
+                    <span>"Binarization"</span>
+                </div>
+                <br />
+                <div class="project-links">
+                    <a
+                        href="https://github.com/Bha-Gu/lad_rs"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="project-grid"
+                    >
 
-            // </article>
-            </div>
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="100"
+                            height="30"
+                            fill="currentColor"
+                            class="bi bi-github"
+                            viewBox="0 0 60 20"
+                        >
+                            <path
+                                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8"
 
+                                transform="translate(0 4) scale(0.75)"
+                            />
+
+                            <text x="20" y="16" font-size="12" font-family="sans-serif">
+                                GitHub
+                            </text>
+                        </svg>
+                    </a>
+                </div>
+
+            </article>
+        // </div>
         </section>
     }
 }
@@ -278,7 +293,7 @@ pub fn Home() -> impl IntoView {
             <div class="portfolio">
                 <About />
                 <Skills />
-                // <Projects />
+                <Projects />
                 <Papers />
                 <Education />
             </div>
