@@ -114,11 +114,16 @@ pub fn Projects() -> impl IntoView {
             <article class="project-card">
                 <h3>"LAD-rs"</h3>
                 <p>
-                    "Implementation of a modified version on Logical Analysis of Data Algorithm to be able to run on multiclass dataset."
+                    "A Rust implementation of a modified Logical Analysis of Data (LAD) algorithm for multiclass classification, featuring custom numerical binarization, binary encoding of nominal features, and discriminative pattern-based rule generation."
                 </p>
                 <div class="project-tech-stack">
                     <span>"LAD"</span>
+                    <span>"Machine Learning"</span>
+                    <span>"Classification"</span>
                     <span>"Binarization"</span>
+                    <span>"Rule Generation"</span>
+                    <span>"Rust"</span>
+                    <span>"Polars"</span>
                 </div>
                 <br />
                 <div class="project-links">
