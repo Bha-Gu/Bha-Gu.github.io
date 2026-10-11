@@ -37,7 +37,7 @@
   margin-top: 1.5rem;
   padding: 1rem 1.25rem;
 
-  background: var(--surface-elevated);
+  background: var(--surface);
   border: 1px solid var(--border);
   border-left: 3px solid var(--primary);
   border-right: 3px solid var(--primary);
@@ -46,6 +46,7 @@
   span {
     display: block;
     color: var(--text-muted);
+
     // transition: color 0.3s ease;
     /* font-size: 1.05rem; */
     /* line-height: 1.7; */
@@ -65,13 +66,13 @@
   border: 1px solid var(--border);
   border-radius: 999px;
 
-  background: var(--bg);
+  background: var(--surface);
 
-  color: var(--text-muted);
+  color: var(--text);
   /* font-size: 0.75rem; */
 
   &:hover {
-    border: 1px solid var(--text);
+    border: 1px solid var(--primary);
     background: var(--surface-elevated);
   }
 }
@@ -292,10 +293,10 @@
     padding: 0.2rem 0.65rem;
     border-radius: 999px;
 
-    background: var(--bg);
+    background: var(--surface);
     border: 1px solid var(--border);
 
-    color: var(--text-muted);
+    color: var(--text);
     /* font-size: 0.75rem; */
     /* line-height: 1.4; */
     // transition:
@@ -324,7 +325,7 @@
 
     &:hover {
       background: var(--surface-elevated);
-      border-color: var(--primary-hover);
+      border-color: var(--primary);
       transform: translateY(-2px);
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
     }

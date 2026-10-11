@@ -7,9 +7,9 @@ use leptos::html;
 use leptos::leptos_dom::helpers::window_event_listener;
 use leptos::prelude::*;
 use slug::slugify;
-use wasm_bindgen::{JsCast, closure::Closure};
+use wasm_bindgen::{closure::Closure, JsCast};
 use web_sys::{
-    Element, IntersectionObserver, IntersectionObserverEntry, IntersectionObserverInit, window,
+    window, Element, IntersectionObserver, IntersectionObserverEntry, IntersectionObserverInit,
 };
 
 // sync with css --navbar-height: {}px; keep it in px
@@ -153,6 +153,11 @@ fn SideBar(
 
             <hr />
             <div class="sidebar__section">{items}</div>
+            <hr />
+
+            <div class="sidebar__link">
+                <a href="#">"Back to Top"</a>
+            </div>
         </aside>
     }
 }

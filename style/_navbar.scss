@@ -12,6 +12,9 @@
   width: 100%;
   /* overflow-x: auto; */
   background: var(--surface);
+
+  backdrop-filter: blur(358px);
+  -webkit-backdrop-filter: blur(358px);
   border-bottom: 1px solid var(--border);
   box-shadow: var(--shadow);
 
@@ -50,7 +53,7 @@
       span {
         width: 100%;
         height: 8%;
-        background: var(--text-muted);
+        background: var(--text);
       }
 
       &.open {
@@ -85,7 +88,7 @@
       height: fit-content;
       overflow: hidden;
       gap: 0;
-      background: var(--surface-elevated);
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 0.5rem;
 
@@ -137,7 +140,11 @@
 
       &:hover,
       &[aria-current="page"] {
-        color: var(--primary-hover);
+        color: var(--primary);
+      }
+
+      &[aria-current="page"] {
+        font-weight: 600;
       }
 
       &[aria-current="page"]::after {
@@ -145,7 +152,7 @@
 
         position: absolute;
         left: 0;
-        bottom: -0.5rem;
+        bottom: 0rem;
 
         width: 100%;
         height: 2px;
@@ -159,7 +166,7 @@
 
       &:hover,
       &[aria-current="page"] {
-        color: var(--primary-hover);
+        color: var(--primary);
       }
 
       &[aria-current="page"]::before {
@@ -190,7 +197,7 @@
     aspect-ratio: 3 / 1;
 
     padding: 2px;
-    background: var(--surface-elevated);
+    background: var(--surface);
     border: 2px solid var(--border);
     border-radius: 50px;
 
@@ -200,19 +207,19 @@
       height: 90%;
       min-width: 0;
 
-      border: 2px solid var(--surface-elevated);
+      border: 0px solid var(--border);
       display: grid;
       place-items: center;
 
       cursor: pointer;
       border-radius: 50px;
 
-      /* transition: background 358ms ease; */
+      transition: none;
 
       &:has(input:checked) {
-        background: var(--primary);
-        color: var(--border);
-        border: 2px solid var(--border);
+        background: var(--surface-elevated);
+        color: var(--primary);
+        border: 2px solid var(--primary);
       }
     }
 
@@ -236,110 +243,6 @@
       font-size: calc(var(--navbar-height) * 0.2);
       line-height: 1;
       pointer-events: none;
-    }
-
-    /* & label:has(.navbar__theme-light)::before { */
-    /* content: "🔆\fe0e"; */
-    /* } */
-
-    /* & label:has(.navbar__theme-system)::before { */
-    /* content: "⚙️\fe0e"; */
-    /* } */
-
-    /* & label:has(.navbar__theme-dark)::before { */
-    /* content: "🌘\fe0e"; */
-    /* } */
-
-    // Keyboard focus indicator.
-    & label:has(input:focus-visible) {
-      outline: 2px solid var(--primary);
-      outline-offset: 2px;
-    }
-  }
-  &__theme-switch {
-    position: relative;
-
-    height: calc(var(--navbar-height) / 2);
-    aspect-ratio: 2 / 1;
-
-    background: var(--border);
-    border-radius: 50px;
-    & input {
-      -webkit-appearance: none;
-      cursor: pointer;
-      height: 100%;
-      width: 100%;
-      position: absolute;
-      margin: 0 0;
-    }
-
-    & input::before {
-      background: var(--surface-elevated);
-      border-radius: 50px;
-      content: "";
-      height: 75%;
-      width: 85%;
-      top: 12.5%;
-      right: 7.5%;
-      position: absolute;
-      margin: 0 0;
-    }
-
-    & input::after {
-      background: var(--primary);
-      border-radius: 50px;
-      content: "🔆\fe0e";
-      font-size: calc(var(--navbar-height) * 0.25);
-      font-weight: 999;
-      color: var(--border);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      opacity: 0.6;
-      height: 70%;
-      aspect-ratio: 1 / 1;
-      // width: 25px;
-      top: 15%;
-      left: 15%;
-      margin: 0 0;
-      position: absolute;
-      transition: all 358ms;
-    }
-    & input:checked::after {
-      opacity: 1;
-      content: "🌘\fe0e";
-      color: var(--border);
-      transform: translateX(100%);
-    }
-  }
-
-  &__theme-slider {
-    position: absolute;
-
-    width: 2rem;
-    height: 2rem;
-
-    border-radius: 999px;
-
-    background: var(--text-muted);
-  }
-
-  &__theme-option {
-    position: relative;
-    z-index: 1;
-
-    width: 40px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    color: var(--text-muted);
-
-    // transition: color 0.3s ease;
-
-    &:first-child {
-      color: white;
     }
   }
 }

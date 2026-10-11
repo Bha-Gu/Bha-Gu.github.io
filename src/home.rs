@@ -287,6 +287,7 @@ pub fn Home() -> impl IntoView {
     let ids = [
         "About".to_string(),
         "Skills".to_string(),
+        "Projects".to_string(),
         "Papers".to_string(),
         "Education".to_string(),
     ];

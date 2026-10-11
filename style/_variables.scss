@@ -1,12 +1,12 @@
 :root {
   /* Backgrounds */
   --bg: #1f1f1f;
-  --surface: #2a2a2a;
-  --surface-elevated: #353535;
+  --surface: rgba(255, 255, 255, 0.0625);
+  --surface-elevated: rgba(255, 255, 255, 0.125);
 
   /* Text */
-  --text: #f5e8d8;
-  --text-muted: #c8b8a8;
+  --text: #f3e5d8;
+  --text-muted: #c3b5a8;
 
   /* Borders */
   --border: #000000;
@@ -16,8 +16,6 @@
   --primary-hover: #ff0358;
   --link: #3f5f8f;
 
-  --navbar-height: 72px;
-
   /* Status */
   --success: #4caf50;
   --warning: #ffb703;
@@ -25,6 +23,9 @@
 
   /* Effects */
   --shadow: 0 4px 16px rgba(255, 255, 255, 0.25);
+
+  --navbar-height: 72px;
+
   /* Fluid Typography */
   --fs-display: clamp(2.5rem, 1.8043rem + 3.4783vw, 4.5rem); /* 40 → 72 */
   --fs-h1: clamp(2rem, 1.4783rem + 2.6087vw, 3.5rem); /* 32 → 56 */
@@ -74,12 +75,11 @@
     /* --fs-input: clamp(1rem, 1.2vw, 1.125rem); */
   }
 }
-
 [data-theme="light"] {
   /* Backgrounds */
   --bg: #ece7e0;
-  --surface: #f4f1ec;
-  --surface-elevated: #e2ddd6;
+  --surface: rgba(0, 0, 0, 0.0625);
+  --surface-elevated: rgba(0, 0, 0, 0.125);
 
   /* Text */
   --text: #4b3b2b;
