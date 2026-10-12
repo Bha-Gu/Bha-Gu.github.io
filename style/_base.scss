@@ -95,6 +95,7 @@ span {
 ):focus-visible {
   outline: 2px solid var(--primary);
   outline-offset: 2px;
+  transition: outline-color 0s;
 }
 
 :where(button, label, a, [role="button"]):has(:focus-visible) {
@@ -108,5 +109,11 @@ span {
 @media (prefers-reduced-motion: reduce) {
   * {
     transition: none !important;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  body {
+    padding-bottom: calc(7rem);
   }
 }

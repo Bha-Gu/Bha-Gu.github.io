@@ -161,15 +161,6 @@ pub fn NavBar(navbar_list: &'static [&'static str]) -> impl IntoView {
                         {navbar_items}
                     </div>
 
-                    <div
-                        on:click=move |_| set_open.update(|val| *val = !*val)
-                        class:open=move || is_open.get()
-                        class="navbar__icon"
-                    >
-                        <span></span>
-                        <span></span>
-                        <span></span>
-                    </div>
                     <li>
                         <ThemeToggle />
                     </li>
